@@ -43,7 +43,8 @@
 <script setup>
 import { Avatar, Lock } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-// import axios from 'axios'
+import { useStore } from 'vuex'
+import { ElMessage } from 'element-plus'
 const loginForm = ref({
   username: '',
   password: ''
@@ -69,13 +70,24 @@ const loginRules = ref({
 const loading = ref(false)
 
 const loginFormRef = ref()
+const store = useStore()
 const handleLogin = () => {
+  // console.log(loginForm.value) // Proxy {username: '123', password: '123'}
   // valid表示表单校验的有效性
   loginFormRef.value.validate(async (valid) => {
     if (!valid) return
     loading.value = true // 按钮转圈圈
-
-    // await login(loginForm.value)
+    // 调用vuex中user模块的loginSystem函数
+    store
+      .dispatch('user/loginSystem', loginForm.value)
+      .then((response) => {
+        loading.value = false
+        ElMessage.success('登录成功!')
+      })
+      .catch((error) => {
+        console.log(error)
+        loading.value = false
+      })
   })
 }
 </script>
