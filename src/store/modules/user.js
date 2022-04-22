@@ -1,10 +1,18 @@
 import { login } from '@/api/sys'
 import md5 from 'md5'
-
+import { setItem, getItem } from '@/utils/storage'
 export default {
   namespaced: true,
-  state: () => ({}),
-  mutations: {},
+  state: () => ({
+    // Vuex和localStorage均保存token
+    token: getItem('token') || '' // 获取不到token则token设置为空
+  }),
+  mutations: {
+    setToken(state, token) {
+      state.token = token
+      setItem('token', token)
+    }
+  },
   actions: {
     loginSystem(context, userInfo) {
       // userInfo传入的是Proxy对象,有属性username和password
@@ -17,6 +25,7 @@ export default {
           password: md5(password)
         })
           .then((data) => {
+            this.commit('user/setToken', data.token)
             resolve()
           })
           .catch((error) => {
