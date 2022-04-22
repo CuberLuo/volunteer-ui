@@ -3,16 +3,6 @@ import md5 from 'md5'
 import { setItem, getItem } from '@/utils/storage'
 export default {
   namespaced: true,
-  state: () => ({
-    // Vuex和localStorage均保存token
-    token: getItem('token') || '' // 获取不到token则token设置为空
-  }),
-  mutations: {
-    setToken(state, token) {
-      state.token = token
-      setItem('token', token)
-    }
-  },
   actions: {
     loginSystem(context, userInfo) {
       // userInfo传入的是Proxy对象,有属性username和password
@@ -26,12 +16,23 @@ export default {
         })
           .then((data) => {
             this.commit('user/setToken', data.token)
-            resolve()
+            resolve('登录成功!')
           })
           .catch((error) => {
+            // error是一个object类型
             reject(error)
           })
       })
     }
-  }
+  },
+  mutations: {
+    setToken(state, token) {
+      state.token = token
+      setItem('token', token)
+    }
+  },
+  state: () => ({
+    // Vuex和localStorage均保存token
+    token: getItem('token') || '' // 获取不到token则token设置为空
+  })
 }

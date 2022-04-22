@@ -78,16 +78,16 @@ const handleLogin = () => {
     if (!valid) return
     loading.value = true // 按钮转圈圈
     // 调用vuex中user模块的loginSystem函数
-    store
+    await store
       .dispatch('user/loginSystem', loginForm.value)
       .then((response) => {
-        loading.value = false
-        ElMessage.success('登录成功!')
+        // loading.value = false
+        ElMessage.success(response)
       })
       .catch((error) => {
         console.log(error)
-        loading.value = false
       })
+    loading.value = false
   })
 }
 </script>
