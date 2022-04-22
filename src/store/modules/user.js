@@ -1,6 +1,7 @@
 import { login } from '@/api/sys'
 import md5 from 'md5'
 import { setItem, getItem } from '@/utils/storage'
+import router from '@/router'
 export default {
   namespaced: true,
   actions: {
@@ -17,6 +18,7 @@ export default {
           .then((data) => {
             this.commit('user/setToken', data.token)
             resolve('登录成功!')
+            router.push('/') // 登录成功后页面跳转到主页面
           })
           .catch((error) => {
             // error是一个object类型
