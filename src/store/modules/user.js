@@ -1,6 +1,6 @@
 import { login } from '@/api/sys'
 import md5 from 'md5'
-import { setItem, getItem } from '@/utils/storage'
+import { setItem, getItem, removeAllItem } from '@/utils/storage'
 import router from '@/router'
 export default {
   namespaced: true,
@@ -25,6 +25,11 @@ export default {
             reject(error)
           })
       })
+    },
+    logoutSystem() {
+      this.commit('user/setToken', '')
+      removeAllItem()
+      router.push('/login')
     }
   },
   mutations: {
