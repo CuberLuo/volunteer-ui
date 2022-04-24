@@ -81,8 +81,15 @@ const handleLogin = () => {
     await store
       .dispatch('user/loginSystem', loginForm.value)
       .then((response) => {
-        // loading.value = false
-        ElMessage.success(response)
+        if (response === 10000) {
+          ElMessage.success('登录成功!')
+        } else if (response === 10010) {
+          ElMessage.error('用户不存在')
+        } else if (response === 10020) {
+          ElMessage.error('密码错误')
+        } else {
+          ElMessage.error('error code:', response)
+        }
       })
       .catch((error) => {
         console.log(error)

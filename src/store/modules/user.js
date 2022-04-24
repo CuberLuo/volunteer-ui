@@ -15,10 +15,12 @@ export default {
           username,
           password: md5(password)
         })
-          .then((data) => {
-            this.commit('user/setToken', data.token)
-            resolve('登录成功!')
-            router.push('/') // 登录成功后页面跳转到主页面
+          .then((response) => {
+            if (response.code === 10000) {
+              this.commit('user/setToken', response.token)
+              router.push('/') // 登录成功后页面跳转到主页面
+            }
+            resolve(response.code)
           })
           .catch((error) => {
             // error是一个object类型
