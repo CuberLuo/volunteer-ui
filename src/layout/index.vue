@@ -3,6 +3,9 @@
     <!-- 左侧菜单栏 -->
     <el-aside width="200px">
       <el-scrollbar>
+        <div class="logo-container">
+          <img src="../assets/system-icon.png" alt="system-icon" />
+        </div>
         <Sidebar />
       </el-scrollbar>
     </el-aside>
@@ -32,11 +35,19 @@ import AppMain from './components/AppMain'
 }
 
 .layout-container-demo .el-aside {
-  background: #545c64;
+  background: #5d6368;
 }
 
 .el-header {
   padding: 0;
   text-align: right;
+}
+
+.logo-container {
+  width: 100%;
+}
+img {
+  height: 100%;
+  width: 100%;
 }
 </style>

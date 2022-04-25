@@ -5,6 +5,7 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>修改头像</el-dropdown-item>
+          <el-dropdown-item>修改密码</el-dropdown-item>
           <el-dropdown-item divided @click="confirmExit"
             >退出登录</el-dropdown-item
           >
