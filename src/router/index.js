@@ -18,6 +18,25 @@ const routes = [
         component: () => import('@/views/about')
       },
       {
+        path: 'volunteer-manage',
+        name: 'volunteer-manage',
+        meta: { title: '志愿者管理' },
+        component: () => import('@/views/volunteer-manage'),
+        children: [
+          {
+            path: '/detail',
+            name: 'detail',
+            meta: { title: '志愿者详情' },
+            component: () => import('@/views/volunteer-info'),
+            props({ query }) {
+              return {
+                id: query.id
+              }
+            }
+          }
+        ]
+      },
+      {
         path: 'activity-manage',
         name: 'activity-manage',
         meta: { title: '志愿活动管理' },
@@ -30,16 +49,14 @@ const routes = [
         component: () => import('@/views/check-volunteer')
       },
       {
-        path: 'volunteer-manage',
-        name: 'volunteer-manage',
-        meta: { title: '志愿者管理' },
-        component: () => import('@/views/volunteer-manage')
-      },
-      {
         path: 'volunteer-blacklist',
         name: 'volunteer-blacklist',
         meta: { title: '志愿者黑名单' },
         component: () => import('@/views/volunteer-blacklist')
+      },
+      {
+        path: '/:catchAll(.*)',
+        component: () => import('@/views/404')
       }
     ]
   }
