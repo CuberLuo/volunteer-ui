@@ -1,6 +1,18 @@
-# volunteer-ui
+# 亚运会志愿者管理前端项目(PC版)
 
-## Project setup
+## 技术栈
+
+- vue 3.2
+- vuex 4.0
+- vue-router 4.0
+- element-plus 2.1
+- axios 0.26
+- webpack 
+- ES6
+
+## 项目运行
+
+### Install dependencies
 
 ```
 yarn install
@@ -9,21 +21,16 @@ yarn install
 ### Compiles and hot-reloads for development
 
 ```
-yarn serve
+yarn run serve
 ```
 
 ### Compiles and minifies for production
 
 ```
-yarn build
+yarn run build
 ```
 
-### Lints and fixes files
 
-```
-yarn lint
-```
 
-### Customize configuration
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
