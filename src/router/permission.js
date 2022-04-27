@@ -1,7 +1,7 @@
 import router from '@/router'
 import store from '@/store'
 import { ElMessage } from 'element-plus'
-
+// 前置路由守卫
 router.beforeEach((to, from, next) => {
   // 用户登录前只能在登录页
   // 用户登录后不能进入登录页
