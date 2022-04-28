@@ -17,7 +17,7 @@ export default {
         })
           .then((response) => {
             if (response.code === 10000) {
-              this.commit('user/setToken', response.token)
+              this.commit('user/setToken', response.data.token)
               router.push('/') // 登录成功后页面跳转到主页面
             }
             resolve(response.code)

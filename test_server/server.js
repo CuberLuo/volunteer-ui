@@ -1,6 +1,12 @@
 const md5 = require('md5')
 const express = require('express')
 const app = express()
+const volunteerList1 = require('./data/volunteer-list1')
+const volunteerList2 = require('./data/volunteer-list2')
+const volunteerList3 = require('./data/volunteer-list3')
+
+const adminUsername = 'admin'
+const adminPassword = '12345'
 
 app.use((request, response, next) => {
   console.log('有人请求后端服务器了')
@@ -16,31 +22,72 @@ app.post('/login', (request, response) => {
   const username = request.body.username
   const password = request.body.password
   let userInfo = {}
-  if (username !== 'admin') {
+  if (username !== adminUsername) {
     userInfo = {
       code: 10010,
-      msg: '用户不存在'
+      msg: '用户不存在',
+      data: {}
     }
-  } else if (password !== md5('12345')) {
+  } else if (password !== md5(adminPassword)) {
     userInfo = {
       code: 10020,
-      msg: '密码错误'
+      msg: '密码错误',
+      data: {}
     }
   } else {
     userInfo = {
       code: 10000,
       msg: '登录成功!',
-      token: '661fe75115e45a3520ec74121898e2af'
+      data: {
+        token: '661fe75115e45a3520ec74121898e2af'
+      }
     }
   }
 
   response.send(userInfo)
 })
 
+app.post('/volunteerList', (request, response) => {
+  let responseData = {}
+  if (request.body.page === 1) {
+    responseData = {
+      code: 10000,
+      msg: '获取志愿者列表成功',
+      data: {
+        list: volunteerList1.list,
+        total: 30, // 总的数据条数
+        page: '1' // 当前页
+      }
+    }
+  } else if (request.body.page === 2) {
+    responseData = {
+      code: 10000,
+      msg: '获取志愿者列表成功',
+      data: {
+        list: volunteerList2.list,
+        total: 30, // 总的数据条数
+        page: '2' // 当前页
+      }
+    }
+  } else if (request.body.page === 3) {
+    responseData = {
+      code: 10000,
+      msg: '获取志愿者列表成功',
+      data: {
+        list: volunteerList3.list,
+        total: 30, // 总的数据条数
+        page: '3' // 当前页
+      }
+    }
+  }
+
+  response.send(responseData)
+})
+
 app.listen(80, (err) => {
   if (!err) {
-    console.log(
-      '后端服务器启动成功了,请求登录信息地址为: http://localhost:80/login'
-    )
+    // 请求登录信息地址为: http://localhost:80/login
+    // 请求志愿者列表信息地址为: http://localhost:80/volunteerList
+    console.log('后端服务器启动成功')
   }
 })
