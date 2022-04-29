@@ -7,7 +7,7 @@ const volunteerList3 = require('./data/volunteer-list3')
 
 const adminUsername = 'admin'
 const adminPassword = '12345'
-const testVar = 0
+const testVar = 1
 
 app.use((request, response, next) => {
   console.log('有人请求后端服务器了')
