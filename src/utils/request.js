@@ -6,6 +6,9 @@ const service = axios.create({
   baseURL: '/api',
   timeout: 5000
 })
+
+service.defaults.adapter = require('axios/lib/adapters/http')
+
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
