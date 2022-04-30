@@ -9,6 +9,7 @@
 - axios 0.26
 - webpack 
 - ES6
+- Mock.js
 
 ## 项目运行
 
