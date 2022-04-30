@@ -1,17 +1,14 @@
 const md5 = require('md5')
 const express = require('express')
 const app = express()
-const volunteerList1 = require('./data/volunteer-list1')
-const volunteerList2 = require('./data/volunteer-list2')
-const volunteerList3 = require('./data/volunteer-list3')
+const Mock = require('mockjs')
 
 const adminUsername = 'admin'
 const adminPassword = '12345'
 
+// 后端请求拦截器
 app.use((request, response, next) => {
-  console.log('有人请求后端服务器了')
-  // console.log('请求来自于',request.get('Host'));
-  // console.log('请求的地址',request.url);
+  console.log('请求接口:', request.url)
   next()
 })
 
@@ -48,36 +45,31 @@ app.post('/login', (request, response) => {
 })
 
 app.post('/volunteerList', (request, response) => {
-  let responseData = {}
-  if (request.body.page === 1) {
-    responseData = {
-      code: 10000,
-      msg: '获取志愿者列表成功',
-      data: {
-        list: volunteerList1.list,
-        total: 30, // 总的数据条数
-        page: '1' // 当前页
-      }
-    }
-  } else if (request.body.page === 2) {
-    responseData = {
-      code: 10000,
-      msg: '获取志愿者列表成功',
-      data: {
-        list: volunteerList2.list,
-        total: 30, // 总的数据条数
-        page: '2' // 当前页
-      }
-    }
-  } else if (request.body.page === 3) {
-    responseData = {
-      code: 10000,
-      msg: '获取志愿者列表成功',
-      data: {
-        list: volunteerList3.list,
-        total: 30, // 总的数据条数
-        page: '3' // 当前页
-      }
+  const currentPageVolunteerList = []
+  const page = request.body.page
+  const size = request.body.size
+  const total = 88
+  const startIndex = (page - 1) * size
+  const endIndex = startIndex + size < total ? startIndex + size : total
+  for (let i = startIndex; i < endIndex; i++) {
+    const obj = Mock.mock({
+      id: '@integer(100001,101000)',
+      name: '@cname',
+      gender: '@boolean',
+      birthDate: '@date("yyyy-MM-dd")',
+      idCard: '@idcard',
+      address: '@ip',
+      phone: '@phone'
+    })
+    currentPageVolunteerList.push(obj)
+  }
+  const responseData = {
+    code: 10000,
+    msg: '获取志愿者列表成功',
+    data: {
+      list: currentPageVolunteerList,
+      total: total, // 总的数据条数
+      page: page // 当前页
     }
   }
 

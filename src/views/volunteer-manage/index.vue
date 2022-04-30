@@ -23,8 +23,10 @@
         v-model:current-page="page"
         v-model:page-size="size"
         :total="total"
+        :page-sizes="[5, 10]"
         @current-change="handleCurrentChange"
-        layout="total, prev, pager, next, jumper"
+        @size-change="handleSizeChange"
+        layout="total, sizes, prev, pager, next, jumper"
       ></el-pagination>
     </el-card>
   </div>
@@ -41,6 +43,7 @@ const page = ref(1) // 当前页数
 const size = ref(10) // 每页显示条目个数
 
 const getListData = async () => {
+  // 第一次来到本页面向后端请求第1页的10条数据
   const result = await getVolunteerList({
     page: page.value,
     size: size.value
@@ -52,6 +55,11 @@ getListData()
 
 const handleCurrentChange = (number) => {
   page.value = number
+  getListData()
+}
+
+const handleSizeChange = (number) => {
+  size.value = number
   getListData()
 }
 </script>
