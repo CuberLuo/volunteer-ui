@@ -14,3 +14,10 @@ export const deleteVolunteer = (id) => {
     method: 'DELETE'
   })
 }
+
+export const banVolunteer = (id) => {
+  return request({
+    url: `/banVolunteer/${id}`,
+    method: 'GET'
+  })
+}

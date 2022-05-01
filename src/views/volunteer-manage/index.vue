@@ -1,7 +1,25 @@
 <template>
   <div class="volunteer-manage-container">
     <el-card class="header">
-      <el-button type="success">excel导出</el-button>
+      <div class="searchBox">
+        <img
+          src="../../assets/svg/searchIcon.svg"
+          alt="search"
+          class="searchIcon"
+        />
+        <el-select
+          v-model="value"
+          multiple
+          filterable
+          remote
+          reserve-keyword
+          placeholder="志愿者信息检索"
+        >
+          <el-option />
+        </el-select>
+      </div>
+
+      <el-button type="success" class="excelExport">excel导出</el-button>
     </el-card>
     <el-card>
       <el-table :data="tableData" border style="width: 100%">
@@ -16,7 +34,9 @@
           <!-- 解构scope得到row -->
           <template #default="{ row }">
             <el-button type="primary">详细信息</el-button>
-            <el-button type="warning">封禁</el-button>
+            <el-button type="warning" @click="showBanConfirm(row.id)"
+              >封禁</el-button
+            >
             <el-button type="danger" @click="showDeleteConfirm(row.id)"
               >删除</el-button
             >
@@ -38,7 +58,11 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getVolunteerList, deleteVolunteer } from '@/api/volunteer-manage'
+import {
+  getVolunteerList,
+  deleteVolunteer,
+  banVolunteer
+} from '@/api/volunteer-manage'
 import { ElMessageBox, ElMessage } from 'element-plus'
 
 // 页面数据展示参数
@@ -67,7 +91,20 @@ const handleSizeChange = (number) => {
   size.value = number
   getListData()
 }
-
+const showBanConfirm = (id) => {
+  ElMessageBox.confirm('您确认要封禁该志愿者吗?', '封禁确认', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    await banVolunteer(id).then((response) => {
+      if (response.code === 10000) {
+        ElMessage.success('封禁成功')
+      }
+      getListData()
+    })
+  })
+}
 const showDeleteConfirm = (id) => {
   ElMessageBox.confirm('您确认要删除该志愿者吗?', '删除确认', {
     confirmButtonText: '确认',
@@ -86,8 +123,25 @@ const showDeleteConfirm = (id) => {
 
 <style>
 .header {
+  position: relative;
   margin-bottom: 20px;
 }
+
+.searchBox {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.searchIcon {
+  vertical-align: middle;
+}
+
+.excelExport {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+}
+
 .el-pagination {
   margin-top: 15px;
   justify-content: center;

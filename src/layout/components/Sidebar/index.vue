@@ -38,7 +38,6 @@
 </template>
 
 <script setup>
-import { Document, Setting, HomeFilled } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const { path } = route // 当前路由的路径path
