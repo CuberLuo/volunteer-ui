@@ -6,7 +6,7 @@ const service = axios.create({
   baseURL: '/api',
   timeout: 5000
 })
-// 请求拦截器 (http拦截：是在axios请求发出之前给每一个借口携带token去后端校验身份）
+// 请求拦截器 (http拦截：是在axios请求发出之前给每一个接口携带token去后端校验身份）
 service.interceptors.request.use(
   (config) => {
     if (store.state.user.token) {

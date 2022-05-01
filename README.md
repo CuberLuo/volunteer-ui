@@ -1,4 +1,4 @@
-# 亚运会志愿者管理前端项目(PC版)
+# 亚运会志愿者管理前端项目(PC 版)
 
 ## 技术栈
 
@@ -6,9 +6,10 @@
 - vuex 4.0
 - vue-router 4.0
 - element-plus 2.1
-- axios 0.26
-- webpack 
+- axios
+- webpack
 - ES6
+- Mock.js
 
 ## 项目运行
 
@@ -29,8 +30,3 @@ yarn run serve
 ```
 yarn run build
 ```
-
-
-
-
-

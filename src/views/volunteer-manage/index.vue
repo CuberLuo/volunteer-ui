@@ -13,9 +13,13 @@
         <el-table-column prop="id" label="志愿者号" width="220" />
         <!-- 操作 -->
         <el-table-column label="操作">
-          <template #default>
+          <!-- 解构scope得到row -->
+          <template #default="{ row }">
             <el-button type="primary">详细信息</el-button>
-            <el-button type="danger">删除</el-button>
+            <el-button type="warning">封禁</el-button>
+            <el-button type="danger" @click="showDeleteConfirm(row.id)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -23,8 +27,10 @@
         v-model:current-page="page"
         v-model:page-size="size"
         :total="total"
+        :page-sizes="[5, 10]"
         @current-change="handleCurrentChange"
-        layout="total, prev, pager, next, jumper"
+        @size-change="handleSizeChange"
+        layout="total, sizes, prev, pager, next, jumper"
       ></el-pagination>
     </el-card>
   </div>
@@ -32,7 +38,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getVolunteerList } from '@/api/volunteerList'
+import { getVolunteerList, deleteVolunteer } from '@/api/volunteer-manage'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 // 页面数据展示参数
 const tableData = ref([])
@@ -41,6 +48,7 @@ const page = ref(1) // 当前页数
 const size = ref(10) // 每页显示条目个数
 
 const getListData = async () => {
+  // 第一次来到本页面向后端请求第1页的10条数据
   const result = await getVolunteerList({
     page: page.value,
     size: size.value
@@ -53,6 +61,26 @@ getListData()
 const handleCurrentChange = (number) => {
   page.value = number
   getListData()
+}
+
+const handleSizeChange = (number) => {
+  size.value = number
+  getListData()
+}
+
+const showDeleteConfirm = (id) => {
+  ElMessageBox.confirm('您确认要删除该志愿者吗?', '删除确认', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    await deleteVolunteer(id).then((response) => {
+      if (response.code === 10000) {
+        ElMessage.success('删除成功')
+      }
+      getListData()
+    })
+  })
 }
 </script>
 

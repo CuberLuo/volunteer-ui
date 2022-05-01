@@ -31,9 +31,9 @@
         <el-form-item label="确认新密码：" prop="checkPassword">
           <el-input type="password" v-model="ruleForm.checkPassword"></el-input>
         </el-form-item>
-        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" :loading="loading" @click="handleChange">
-          Confirm
+          确认
         </el-button>
       </el-form>
     </el-dialog>
@@ -159,10 +159,6 @@ const handleChange = () => {
 .el-avatar {
   /* border: 1px solid var(--el-color-primary); */
   --el-avatar-bg-color: none;
-}
-
-.dialog-footer button:first-child {
-  margin-right: 10px;
 }
 
 .dialog-footer button:first-child {
