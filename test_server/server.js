@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const Mock = require('mockjs')
 
-// dev-0.1
 const adminUsername = 'admin'
 const adminPassword = '12345'
 
