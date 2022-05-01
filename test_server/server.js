@@ -7,7 +7,6 @@ const volunteerList3 = require('./data/volunteer-list3')
 
 const adminUsername = 'admin'
 const adminPassword = '12345'
-const testVar = 1
 
 app.use((request, response, next) => {
   console.log('有人请求后端服务器了')
@@ -53,16 +52,16 @@ app.post('/login', (request, response) => {
 })
 
 app.post('/changePsd', (request, response) => {
-  const Password = request.body.password
+  const password = request.body.password
   const newPassword = request.body.newPassword
   let userInfo = {}
-  if (Password !== adminPassword) {
+  if (password !== adminPassword) {
     userInfo = {
       code: 10010,
       msg: '原密码不正确',
       data: {}
     }
-  } else if (newPassword === Password) {
+  } else if (newPassword === password) {
     userInfo = {
       code: 10020,
       msg: '原密码和新密码相同',

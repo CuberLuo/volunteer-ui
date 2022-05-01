@@ -40,13 +40,9 @@ export default {
           newPassword: ruleForm.newPassword
         })
           .then((response) => {
-            if (response.code === 10000) {
-              router.push('/') // 登录成功后页面跳转到主页面
-            }
             resolve(response.code)
           })
           .catch((error) => {
-            // error是一个object类型
             reject(error)
           })
       })

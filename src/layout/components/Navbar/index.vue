@@ -12,33 +12,31 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <el-dialog v-model="dialogVisible" title="修改密码" width="30%" >
-    <el-form
-    ref="ruleFormRef"
-    :model="ruleForm"
-    :rules="rules"
-    label-width="120px"
-    class="demo-ruleForm"
-  >
-    <el-form-item label="原密码：" prop="password">
-      <el-input type='password' v-model="ruleForm.password" ></el-input>
-    </el-form-item>
+    <el-dialog v-model="dialogVisible" title="修改密码" width="30%">
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleForm"
+        :rules="rules"
+        label-width="120px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="原密码：" prop="password">
+          <el-input type="password" v-model="ruleForm.password"></el-input>
+        </el-form-item>
 
-    <el-form-item label="新密码：" prop="newPassword">
-      <el-input type='password' v-model="ruleForm.newPassword"></el-input>
-    </el-form-item>
+        <el-form-item label="新密码：" prop="newPassword">
+          <el-input type="password" v-model="ruleForm.newPassword"></el-input>
+        </el-form-item>
 
-    <el-form-item label="确认新密码：" prop="checkPassword">
-      <el-input type='password' v-model="ruleForm.checkPassword"></el-input>
-    </el-form-item>
-    <el-button @click="dialogVisible = false">Cancel</el-button>
-    <el-button type="primary" :loading="loading" @click="handleChange">
-      Confirm
-    </el-button>
-
-    </el-form>
-
-  </el-dialog>
+        <el-form-item label="确认新密码：" prop="checkPassword">
+          <el-input type="password" v-model="ruleForm.checkPassword"></el-input>
+        </el-form-item>
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" :loading="loading" @click="handleChange">
+          Confirm
+        </el-button>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -47,9 +45,6 @@ import { reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { ElMessageBox, ElMessage } from 'element-plus'
 
-import { setItem, getItem, removeAllItem } from '@/utils/storage'
-
-// import { vi } from 'element-plus/lib/locale'
 const circleUrl = ref(
   'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fucc.alicdn.com%2Favatar%2F9cc3a0c84ecf45de95d7c0bb56d1105e.png&refer=http%3A%2F%2Fucc.alicdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653312625&t=cb2404f47f4aa0a7c933caaa94c05641'
 )
@@ -83,7 +78,6 @@ const ruleForm = reactive({
   newPassword: '',
   checkPassword: ''
 })
-
 
 const validatePass1 = (rule, value, callback) => {
   if (ruleForm.newPassword !== ruleForm.checkPassword) {
@@ -145,7 +139,6 @@ const handleChange = () => {
     loading.value = false
   })
 }
-
 </script>
 
 <style scoped>
@@ -175,5 +168,4 @@ const handleChange = () => {
 .dialog-footer button:first-child {
   margin-right: 10px;
 }
-
 </style>
