@@ -31,11 +31,15 @@
         <el-form-item label="确认新密码：" prop="checkPassword">
           <el-input type="password" v-model="ruleForm.checkPassword"></el-input>
         </el-form-item>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" :loading="loading" @click="handleChange">
-          确认
-        </el-button>
       </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" :loading="loading" @click="handleChange">
+            确认
+          </el-button>
+        </span>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -124,13 +128,16 @@ const handleChange = () => {
       .then((response) => {
         if (response === 10000) {
           ElMessage.success('修改密码成功')
+          ruleForm.password = ''
+          ruleForm.newPassword = ''
+          ruleForm.checkPassword = ''
           dialogVisible.value = false
         } else if (response === 10010) {
           ElMessage.error('原密码不正确')
         } else if (response === 10020) {
           ElMessage.error('原密码和新密码相同')
         } else {
-          ElMessage.error('error code:', response)
+          ElMessage.error('error code:', response.code)
         }
       })
       .catch((error) => {
@@ -141,7 +148,7 @@ const handleChange = () => {
 }
 </script>
 
-<style scoped>
+<style>
 .navbar {
   height: 50px;
   overflow: hidden;
@@ -153,12 +160,18 @@ const handleChange = () => {
 .el-dropdown {
   margin-top: 2px;
   margin-right: 40px;
-  /* border: 2px solid red; */
 }
 
 .el-avatar {
-  /* border: 1px solid var(--el-color-primary); */
   --el-avatar-bg-color: none;
+}
+
+.el-dialog__header {
+  text-align: left;
+}
+
+.el-dialog__footer {
+  padding-top: 0;
 }
 
 .dialog-footer button:first-child {

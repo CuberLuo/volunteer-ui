@@ -84,8 +84,12 @@ const showDeleteConfirm = (id) => {
 }
 </script>
 
-<style scoped>
+<style>
 .header {
   margin-bottom: 20px;
+}
+.el-pagination {
+  margin-top: 15px;
+  justify-content: center;
 }
 </style>
