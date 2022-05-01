@@ -13,9 +13,13 @@
         <el-table-column prop="id" label="志愿者号" width="220" />
         <!-- 操作 -->
         <el-table-column label="操作">
-          <template #default>
+          <!-- 解构scope得到row -->
+          <template #default="{ row }">
             <el-button type="primary">详细信息</el-button>
-            <el-button type="danger">删除</el-button>
+            <el-button type="warning">封禁</el-button>
+            <el-button type="danger" @click="showDeleteConfirm(row.id)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -34,7 +38,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getVolunteerList } from '@/api/volunteerList'
+import { getVolunteerList, deleteVolunteer } from '@/api/volunteer-manage'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 // 页面数据展示参数
 const tableData = ref([])
@@ -61,6 +66,21 @@ const handleCurrentChange = (number) => {
 const handleSizeChange = (number) => {
   size.value = number
   getListData()
+}
+
+const showDeleteConfirm = (id) => {
+  ElMessageBox.confirm('您确认要删除该志愿者吗?', '删除确认', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    await deleteVolunteer(id).then((response) => {
+      if (response.code === 10000) {
+        ElMessage.success('删除成功')
+      }
+      getListData()
+    })
+  })
 }
 </script>
 

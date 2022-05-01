@@ -76,6 +76,16 @@ app.post('/volunteerList', (request, response) => {
   response.send(responseData)
 })
 
+app.delete('/deleteVolunteer/:id', (request, response) => {
+  console.log('成功删除志愿者号', request.params.id)
+  const responseData = {
+    code: 10000,
+    msg: '志愿者删除成功',
+    data: {}
+  }
+  response.send(responseData)
+})
+
 app.listen(80, (err) => {
   if (!err) {
     // 请求登录信息地址为: http://localhost:80/login
