@@ -1,4 +1,5 @@
 import isJSON from 'validator/lib/isJSON'
+
 /**
  * 存储数据
  */

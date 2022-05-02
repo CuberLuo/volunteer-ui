@@ -21,3 +21,11 @@ export const banVolunteer = (id) => {
     method: 'GET'
   })
 }
+
+export const addVolunteer = (data) => {
+  return request({
+    url: '/addVolunteer',
+    method: 'POST',
+    data
+  })
+}

@@ -40,7 +40,6 @@ import AppMain from './components/AppMain'
 
 .el-header {
   padding: 0;
-  text-align: right;
 }
 
 .logo-container {

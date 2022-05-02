@@ -7,18 +7,10 @@
           alt="search"
           class="searchIcon"
         />
-        <el-select
-          v-model="value"
-          multiple
-          filterable
-          remote
-          reserve-keyword
-          placeholder="志愿者信息检索"
-        >
-          <el-option />
-        </el-select>
       </div>
-
+      <el-button type="primary" class="addButton" @click="showAddDialog"
+        >志愿者添加</el-button
+      >
       <el-button type="success" class="excelExport">excel导出</el-button>
     </el-card>
     <el-card>
@@ -53,6 +45,7 @@
         layout="total, sizes, prev, pager, next, jumper"
       ></el-pagination>
     </el-card>
+    <AddVolunteerDialog v-model="addVolunteerDialogVisible" />
   </div>
 </template>
 
@@ -64,12 +57,18 @@ import {
   banVolunteer
 } from '@/api/volunteer-manage'
 import { ElMessageBox, ElMessage } from 'element-plus'
+import AddVolunteerDialog from './components/AddVolunteerDialog.vue'
 
 // 页面数据展示参数
 const tableData = ref([])
 const total = ref(0) // 总条目数
 const page = ref(1) // 当前页数
 const size = ref(10) // 每页显示条目个数
+
+const addVolunteerDialogVisible = ref(false)
+const showAddDialog = () => {
+  addVolunteerDialogVisible.value = true
+}
 
 const getListData = async () => {
   // 第一次来到本页面向后端请求第1页的10条数据
@@ -134,6 +133,12 @@ const showDeleteConfirm = (id) => {
 
 .searchIcon {
   vertical-align: middle;
+}
+
+.addButton {
+  position: absolute;
+  right: 0;
+  margin-right: 130px;
 }
 
 .excelExport {
