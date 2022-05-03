@@ -11,7 +11,7 @@
 - ES6
 - Mock.js
 
-## 项目运行
+## 前端项目运行
 
 ### Install dependencies
 
@@ -29,4 +29,18 @@ yarn run serve
 
 ```
 yarn run build
+```
+
+## nodejs 模拟后端运行
+
+### 目录切换
+
+```
+cd test_server
+```
+
+### 运行后端文件
+
+```
+n
 ```
