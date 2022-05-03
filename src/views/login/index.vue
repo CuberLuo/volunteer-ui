@@ -41,15 +41,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
-const loginForm = ref({
+const loginForm = reactive({
   username: '',
   password: ''
 })
 
-const loginRules = ref({
+const loginRules = reactive({
   username: [
     {
       required: true,
@@ -78,7 +78,7 @@ const handleLogin = () => {
     loading.value = true // 按钮转圈圈
     // 调用vuex中user模块的loginSystem函数
     await store
-      .dispatch('user/loginSystem', loginForm.value)
+      .dispatch('user/loginSystem', loginForm)
       .then((response) => {
         if (response === 10000) {
           ElMessage.success('登录成功!')

@@ -70,7 +70,7 @@ const validatePass1 = (rule, value, callback) => {
   }
 }
 
-const rules = ref({
+const rules = reactive({
   password: [
     {
       required: true,

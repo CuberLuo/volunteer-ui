@@ -29,3 +29,10 @@ export const addVolunteer = (data) => {
     data
   })
 }
+
+export const getAllVolunteerList = () => {
+  return request({
+    url: '/getAllVolunteerList',
+    method: 'GET'
+  })
+}

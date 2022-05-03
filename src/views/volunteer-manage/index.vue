@@ -11,7 +11,9 @@
       <el-button type="primary" class="addButton" @click="showAddDialog"
         >志愿者添加</el-button
       >
-      <el-button type="success" class="excelExport">excel导出</el-button>
+      <el-button type="success" class="excelExport" @click="showExportDialog"
+        >excel导出</el-button
+      >
     </el-card>
     <el-card>
       <el-table :data="tableData" border style="width: 100%">
@@ -46,6 +48,7 @@
       ></el-pagination>
     </el-card>
     <AddVolunteerDialog v-model="addVolunteerDialogVisible" />
+    <ExportDialog v-model="exportDialogVisible" />
   </div>
 </template>
 
@@ -58,6 +61,7 @@ import {
 } from '@/api/volunteer-manage'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import AddVolunteerDialog from './components/AddVolunteerDialog.vue'
+import ExportDialog from './components/ExportDialog.vue'
 
 // 页面数据展示参数
 const tableData = ref([])
@@ -69,7 +73,10 @@ const addVolunteerDialogVisible = ref(false)
 const showAddDialog = () => {
   addVolunteerDialogVisible.value = true
 }
-
+const exportDialogVisible = ref(false)
+const showExportDialog = () => {
+  exportDialogVisible.value = true
+}
 const getListData = async () => {
   // 第一次来到本页面向后端请求第1页的10条数据
   const result = await getVolunteerList({

@@ -46,13 +46,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { addVolunteer } from '@/api/volunteer-manage'
 import { ElMessage } from 'element-plus'
 import idCard from 'idcard' // 身份证号验证第三方库
 import isMobilePhone from 'validator/lib/isMobilePhone' // 手机号验证第三方库
 
-const addForm = ref({
+const addForm = reactive({
   vName: '',
   vGender: '',
   vIdCard: '',
@@ -61,20 +61,20 @@ const addForm = ref({
 })
 const addFormRef = ref()
 const validateIdCard = (rule, value, callback) => {
-  if (!idCard.verify(addForm.value.vIdCard)) {
+  if (!idCard.verify(addForm.vIdCard)) {
     callback(new Error('身份证格式错误'))
   } else {
     callback()
   }
 }
 const validatePhone = (rule, value, callback) => {
-  if (!isMobilePhone(addForm.value.vPhone, 'zh-CN')) {
+  if (!isMobilePhone(addForm.vPhone, 'zh-CN')) {
     callback(new Error('手机号格式错误'))
   } else {
     callback()
   }
 }
-const addRules = ref({
+const addRules = reactive({
   vName: [
     {
       required: true,
@@ -126,7 +126,7 @@ const handleAdd = () => {
   addFormRef.value.validate(async (valid) => {
     if (!valid) return
     loading.value = true
-    await addVolunteer(addForm.value).then((response) => {
+    await addVolunteer(addForm).then((response) => {
       if (response.code === 10000) {
         ElMessage.success('添加成功')
         addFormRef.value.resetFields()

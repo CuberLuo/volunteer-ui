@@ -81,11 +81,11 @@ app.post('/volunteerList', (request, response) => {
     const obj = Mock.mock({
       id: '@integer(100001,101000)',
       name: '@cname',
-      gender: '@boolean',
+      'gender|1': ['男', '女'],
       birthDate: '@date("yyyy-MM-dd")',
-      idCard: '@idcard',
-      address: '@ip',
-      phone: '@phone'
+      idCard: Mock.mock('@id'),
+      address: '@county(true)',
+      phone: '@integer(13111111111,19899999999)'
     })
     currentPageVolunteerList.push(obj)
   }
@@ -129,6 +129,31 @@ app.post('/addVolunteer', (request, response) => {
     msg: '志愿者添加成功',
     data: {}
   }
+  response.send(responseData)
+})
+
+app.get('/getAllVolunteerList', (request, response) => {
+  const allVolunteerList = []
+  for (let i = 0; i < 88; i++) {
+    const obj = Mock.mock({
+      id: '@integer(100001,101000)',
+      name: '@cname',
+      'gender|1': ['男', '女'],
+      birthDate: '@date("yyyy-MM-dd")',
+      idCard: Mock.mock('@id'),
+      address: '@county(true)',
+      phone: '@integer(13111111111,19899999999)'
+    })
+    allVolunteerList.push(obj)
+  }
+  const responseData = {
+    code: 10000,
+    msg: '获取所有志愿者列表成功',
+    data: {
+      list: allVolunteerList
+    }
+  }
+
   response.send(responseData)
 })
 
