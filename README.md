@@ -42,5 +42,5 @@ cd test_server
 ### 运行后端文件
 
 ```
-n
+node server
 ```
