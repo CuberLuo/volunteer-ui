@@ -13,19 +13,19 @@
 
 ## 前端项目运行
 
-### Install dependencies
+### 安装项目依赖
 
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### 编译并热加载开发环境下的项目
 
 ```
 yarn run serve
 ```
 
-### Compiles and minifies for production
+### 编译并打包生产环境下的项目
 
 ```
 yarn run build
