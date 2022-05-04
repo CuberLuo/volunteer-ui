@@ -157,6 +157,54 @@ app.get('/getAllVolunteerList', (request, response) => {
   response.send(responseData)
 })
 
+app.post('/addActivity', (request, response) => {
+  console.log(request.body)
+  const responseData = {
+    code: 10000,
+    msg: '活动添加成功',
+    data: {}
+  }
+  response.send(responseData)
+})
+
+app.delete('/deleteActivity/:id', (request, response) => {
+  console.log('成功删除活动', request.params.id)
+  const responseData = {
+    code: 10000,
+    msg: '活动删除成功',
+    data: {}
+  }
+  response.send(responseData)
+})
+
+app.post('/activityList', (request, response) => {
+  const currentPageActivityList = []
+  const page = request.body.page
+  const size = request.body.size
+  const total = 88
+  const startIndex = (page - 1) * size
+  const endIndex = startIndex + size < total ? startIndex + size : total
+  for (let i = startIndex; i < endIndex; i++) {
+    const obj = Mock.mock({
+      id: '@integer(300001,30100)',
+      name: '@cname',
+      address: '@county(true)'
+    })
+    currentPageActivityList.push(obj)
+  }
+  const responseData = {
+    code: 10000,
+    msg: '获取活动列表成功',
+    data: {
+      list: currentPageActivityList,
+      total: total, // 总的数据条数
+      page: page // 当前页
+    }
+  }
+
+  response.send(responseData)
+})
+
 app.listen(80, (err) => {
   if (!err) {
     // 请求登录信息地址为: http://localhost:80/login
