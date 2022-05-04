@@ -9,7 +9,7 @@
         />
       </div>
       <el-button type="primary" class="addButton" @click="showAddDialog"
-        >活动添加</el-button
+        >志愿活动添加</el-button
       >
     </el-card>
     <el-card>

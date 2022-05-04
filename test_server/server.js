@@ -187,7 +187,7 @@ app.post('/activityList', (request, response) => {
   for (let i = startIndex; i < endIndex; i++) {
     const obj = Mock.mock({
       id: '@integer(300001,30100)',
-      name: '@cname',
+      name: '@ctitle',
       address: '@county(true)'
     })
     currentPageActivityList.push(obj)
