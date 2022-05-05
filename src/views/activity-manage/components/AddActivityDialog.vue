@@ -3,7 +3,7 @@
     title="志愿活动添加"
     :model-value="modelValue"
     @close="closeDialog"
-    width="40%"
+    width="80%"
   >
     <el-form
       ref="addFormRef"
@@ -21,8 +21,8 @@
         <el-input v-model="addForm.aAddress" />
       </el-form-item>
 
-      <el-form-item name="aStaDate" label="活动开始日期" prop="aSta">
-      <el-col :span="11">
+      <el-form-item name="aStaDate" label="活动时间" prop="aSta">
+      <el-col :span="5">
         <el-date-picker
           v-model="addForm.aStaDate"
           type="date"
@@ -30,13 +30,28 @@
           style="width: 100%"
         />
       </el-col>
-      <el-col :span="2" class="text-center">
-        <span class="text-gray-500">-</span>
-      </el-col>
-      <el-col :span="11">
+      <el-col :span="5">
         <el-time-picker
           v-model="addForm.aStaTime"
           placeholder="选择活动开始时间"
+          style="width: 100%"
+        />
+      </el-col>
+      <el-col :span="1" class="text-center">
+        <span class="text-gray-500"><span v-html="'\u00a0\u00a0'"></span>-----</span>
+      </el-col>
+      <el-col :span="5">
+        <el-date-picker
+          v-model="addForm.aEndDate"
+          type="date"
+          placeholder="选择活动结束日期"
+          style="width: 100%"
+        />
+      </el-col>
+      <el-col :span="5">
+        <el-time-picker
+          v-model="addForm.aEndTime"
+          placeholder="选择活动结束时间"
           style="width: 100%"
         />
       </el-col>
@@ -63,7 +78,9 @@ const addForm = reactive({
   aIndex: '',
   aAddress: '',
   aStaDate: '',
-  aStaTime: ''
+  aStaTime: '',
+  aEndDate: '',
+  aEndTime: ''
 })
 const addFormRef = ref()
 
@@ -89,18 +106,11 @@ const addRules = reactive({
       message: '活动地址不能为空'
     }
   ],
-  aStaDate: [
+  aSta: [
     {
       required: true,
       trigger: 'blur',
-      message: '活动日期不能为空'
-    }
-  ],
-  aStaTime: [
-    {
-      required: true,
-      trigger: 'blur',
-      message: '活动日期不能为空'
+      message: '活动时间不能为空'
     }
   ]
 
