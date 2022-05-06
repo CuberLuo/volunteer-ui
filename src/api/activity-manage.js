@@ -29,3 +29,10 @@ export const getAllActivityList = () => {
     method: 'GET'
   })
 }
+
+export const getActivityInfoById = (id) => {
+  return request({
+    url: `/activityInfo/${id}`,
+    method: 'GET'
+  })
+}

@@ -157,6 +157,27 @@ app.get('/getAllVolunteerList', (request, response) => {
   response.send(responseData)
 })
 
+app.get('/volunteerInfo/:id', (request, response) => {
+  console.log('请求志愿者号' + request.params.id + '的详细信息')
+  const obj = Mock.mock({
+    id: '@integer(100001,101000)',
+    name: '@cname',
+    'gender|1': ['男', '女'],
+    birthDate: '@date("yyyy-MM-dd")',
+    idCard: Mock.mock('@id'),
+    address: '@county(true)',
+    phone: '@integer(13111111111,19899999999)'
+  })
+  const responseData = {
+    code: 10000,
+    msg: '获取志愿者详细信息成功',
+    data: {
+      info: obj
+    }
+  }
+  response.send(responseData)
+})
+
 app.post('/addActivity', (request, response) => {
   console.log(request.body)
   const responseData = {
@@ -202,6 +223,123 @@ app.post('/activityList', (request, response) => {
     }
   }
 
+  response.send(responseData)
+})
+
+app.get('/activityInfo/:id', (request, response) => {
+  const obj = Mock.mock({
+    id: '@integer(100001,101000)',
+    name: '@ctitle',
+    birthDate: '@datetime("yy-MM-dd  HH:mm")',
+    address: '@county(true)'
+  })
+  const responseData = {
+    code: 10000,
+    msg: '获取志愿者详细信息成功',
+    data: {
+      info: obj
+    }
+  }
+  response.send(responseData)
+})
+
+app.post('/checkVolList', (request, response) => {
+  const currentPageVolunteerList = []
+  const page = request.body.page
+  const size = request.body.size
+  const total = 88
+  const startIndex = (page - 1) * size
+  const endIndex = startIndex + size < total ? startIndex + size : total
+  for (let i = startIndex; i < endIndex; i++) {
+    const obj = Mock.mock({
+      id: '@integer(100001,101000)',
+      name: '@cname',
+      'gender|1': ['男', '女'],
+      birthDate: '@date("yyyy-MM-dd")',
+      idCard: Mock.mock('@id'),
+      address: '@county(true)',
+      phone: '@integer(13111111111,19899999999)'
+    })
+    currentPageVolunteerList.push(obj)
+  }
+  const responseData = {
+    code: 10000,
+    msg: '获取待审核志愿者列表成功',
+    data: {
+      list: currentPageVolunteerList,
+      total: total, // 总的数据条数
+      page: page // 当前页
+    }
+  }
+
+  response.send(responseData)
+})
+
+app.delete('/objectVolunteer/:id', (request, response) => {
+  const responseData = {
+    code: 10000,
+    msg: '成功退回申请',
+    data: {}
+  }
+  response.send(responseData)
+})
+
+app.get('/passVolunteer/:id', (request, response) => {
+  const responseData = {
+    code: 10000,
+    msg: '成功通过申请',
+    data: {}
+  }
+  response.send(responseData)
+})
+
+app.post('/blackVolList', (request, response) => {
+  const currentPageVolunteerList = []
+  const page = request.body.page
+  const size = request.body.size
+  const total = 88
+  const startIndex = (page - 1) * size
+  const endIndex = startIndex + size < total ? startIndex + size : total
+  for (let i = startIndex; i < endIndex; i++) {
+    const obj = Mock.mock({
+      id: '@integer(100001,101000)',
+      name: '@cname',
+      'gender|1': ['男', '女'],
+      birthDate: '@date("yyyy-MM-dd")',
+      idCard: Mock.mock('@id'),
+      address: '@county(true)',
+      phone: '@integer(13111111111,19899999999)'
+    })
+    currentPageVolunteerList.push(obj)
+  }
+  const responseData = {
+    code: 10000,
+    msg: '获取志愿者黑名单成功',
+    data: {
+      list: currentPageVolunteerList,
+      total: total, // 总的数据条数
+      page: page // 当前页
+    }
+  }
+
+  response.send(responseData)
+})
+
+app.delete('/deleteBlackVol/:id', (request, response) => {
+  const responseData = {
+    code: 10000,
+    msg: '成功删除',
+    data: {}
+  }
+  response.send(responseData)
+})
+
+app.get('/removeBlackVol/:id', (request, response) => {
+  const responseData = {
+    code: 10000,
+    msg: '成功移出',
+    data: {}
+  }
   response.send(responseData)
 })
 

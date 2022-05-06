@@ -21,7 +21,7 @@
         <el-table-column label="操作">
           <!-- 解构scope得到row -->
           <template #default="{ row }">
-            <el-button type="primary">详细信息</el-button>
+            <el-button type="primary" @click="showInfDialog">详细信息</el-button>
             <el-button type="danger" @click="showDeleteConfirm(row.id)"
               >删除</el-button
             >
@@ -39,6 +39,7 @@
       ></el-pagination>
     </el-card>
     <AddActivityDialog v-model="addActivityDialogVisible" />
+    <ShowInfDialog v-model="showInfDialogVisible" />
   </div>
 </template>
 
@@ -50,12 +51,18 @@ import {
 } from '@/api/activity-manage'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import AddActivityDialog from './components/AddActivityDialog.vue'
+import ShowInfDialog from './components/ShowInfDialog.vue'
 
 // 页面数据展示参数
 const tableData = ref([])
 const total = ref(0) // 总条目数
 const page = ref(1) // 当前页数
 const size = ref(10) // 每页显示条目个数
+
+const showInfDialogVisible = ref(false)
+const showInfDialog = () => {
+  showInfDialogVisible.value = true
+}
 
 const addActivityDialogVisible = ref(false)
 const showAddDialog = () => {

@@ -36,3 +36,10 @@ export const getAllVolunteerList = () => {
     method: 'GET'
   })
 }
+
+export const getVolunteerInfoById = (id) => {
+  return request({
+    url: `/volunteerInfo/${id}`,
+    method: 'GET'
+  })
+}
