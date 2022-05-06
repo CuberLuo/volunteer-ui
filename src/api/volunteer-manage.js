@@ -36,3 +36,25 @@ export const getAllVolunteerList = () => {
     method: 'GET'
   })
 }
+
+export const getVolunteerInfoById = (id) => {
+  return request({
+    url: `/volunteerInfo/${id}`,
+    method: 'GET'
+  })
+}
+
+export const getActivitySelectList = () => {
+  return request({
+    url: '/getActivitySelectList',
+    method: 'GET'
+  })
+}
+
+export const changeVolunteerInfo = (data) => {
+  return request({
+    url: '/changeVolunteerInfo',
+    method: 'POST',
+    data
+  })
+}
