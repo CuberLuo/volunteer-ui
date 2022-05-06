@@ -17,9 +17,3 @@ export const changePsd = (data) => {
     data
   })
 }
-
-// export const getUserInfo = () => {
-//   return request({
-//     url: '/profile'
-//   })
-// }

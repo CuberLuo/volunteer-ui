@@ -81,11 +81,7 @@ app.post('/volunteerList', (request, response) => {
     const obj = Mock.mock({
       id: '@integer(100001,101000)',
       name: '@cname',
-      'gender|1': ['男', '女'],
-      birthDate: '@date("yyyy-MM-dd")',
-      idCard: Mock.mock('@id'),
-      address: '@county(true)',
-      phone: '@integer(13111111111,19899999999)'
+      'gender|1': ['男', '女']
     })
     currentPageVolunteerList.push(obj)
   }
@@ -157,6 +153,24 @@ app.get('/getAllVolunteerList', (request, response) => {
   response.send(responseData)
 })
 
+app.get('/getActivitySelectList', (request, response) => {
+  const activitySelectList = []
+  for (let i = 0; i < 20; i++) {
+    const activity = Mock.mock('@cword(5, 10)')
+    activitySelectList.push(activity)
+  }
+
+  const responseData = {
+    code: 10000,
+    msg: '获取活动选择列表成功',
+    data: {
+      list: activitySelectList
+    }
+  }
+
+  response.send(responseData)
+})
+
 app.get('/volunteerInfo/:id', (request, response) => {
   console.log('请求志愿者号' + request.params.id + '的详细信息')
   const obj = Mock.mock({
@@ -166,7 +180,14 @@ app.get('/volunteerInfo/:id', (request, response) => {
     birthDate: '@date("yyyy-MM-dd")',
     idCard: Mock.mock('@id'),
     address: '@county(true)',
-    phone: '@integer(13111111111,19899999999)'
+    phone: '@integer(13111111111,19899999999)',
+    space: '@cword(5, 10)',
+    'state|1': [
+      '未工作(未开始工作)',
+      '未工作(工作日期内但非工作时间段)',
+      '正在工作',
+      '已完成工作'
+    ]
   })
   const responseData = {
     code: 10000,
@@ -338,6 +359,16 @@ app.get('/removeBlackVol/:id', (request, response) => {
   const responseData = {
     code: 10000,
     msg: '成功移出',
+    data: {}
+  }
+  response.send(responseData)
+})
+
+app.post('/changeVolunteerInfo', (request, response) => {
+  console.log(request.body)
+  const responseData = {
+    code: 10000,
+    msg: '志愿者信息修改成功',
     data: {}
   }
   response.send(responseData)

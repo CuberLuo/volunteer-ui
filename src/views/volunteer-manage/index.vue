@@ -8,10 +8,18 @@
           class="searchIcon"
         />
       </div>
-      <el-button type="primary" class="addButton" @click="showAddDialog"
+      <el-button
+        type="primary"
+        :icon="Plus"
+        class="addButton"
+        @click="showAddDialog"
         >志愿者添加</el-button
       >
-      <el-button type="success" class="excelExport" @click="showExportDialog"
+      <el-button
+        type="success"
+        :icon="Download"
+        class="excelExport"
+        @click="showExportDialog"
         >excel导出</el-button
       >
     </el-card>
@@ -20,14 +28,16 @@
         <!-- 索引 -->
         <el-table-column type="index" label="#" width="220" />
         <!-- 姓名 -->
-        <el-table-column prop="name" label="姓名" width="220" />
+        <el-table-column prop="name" label="姓名" width="220" sortable />
         <!-- 志愿者号 -->
-        <el-table-column prop="id" label="志愿者号" width="220" />
+        <el-table-column prop="id" label="志愿者号" width="220" sortable />
         <!-- 操作 -->
         <el-table-column label="操作">
           <!-- 解构scope得到row -->
           <template #default="{ row }">
-            <el-button type="primary">详细信息</el-button>
+            <el-button type="primary" @click="showDetailedInfoDialog(row.id)"
+              >详细信息</el-button
+            >
             <el-button type="warning" @click="showBanConfirm(row.id)"
               >封禁</el-button
             >
@@ -49,11 +59,18 @@
     </el-card>
     <AddVolunteerDialog v-model="addVolunteerDialogVisible" />
     <ExportDialog v-model="exportDialogVisible" />
+    <DetailedInfoDialog
+      v-model="detailedInfoDialogVisible"
+      :userId="userId"
+      @setInfoChangeDialog="setInfoChangeDialog"
+    />
+
+    <InfoChangeDialog v-model="infoChangeDialogVisible" :infoObj="infoObj" />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import {
   getVolunteerList,
   deleteVolunteer,
@@ -62,6 +79,18 @@ import {
 import { ElMessageBox, ElMessage } from 'element-plus'
 import AddVolunteerDialog from './components/AddVolunteerDialog.vue'
 import ExportDialog from './components/ExportDialog.vue'
+import DetailedInfoDialog from './components/DetailedInfoDialog.vue'
+import InfoChangeDialog from './components/InfoChangeDialog'
+import { Plus, Download } from '@element-plus/icons-vue'
+
+const infoObj = reactive({
+  vName: '',
+  vGender: '',
+  vIdCard: '',
+  vPhone: '',
+  vAddress: ''
+})
+const infoChangeDialogVisible = ref(false)
 
 // 页面数据展示参数
 const tableData = ref([])
@@ -77,6 +106,14 @@ const exportDialogVisible = ref(false)
 const showExportDialog = () => {
   exportDialogVisible.value = true
 }
+
+const detailedInfoDialogVisible = ref(false)
+const userId = ref(-1)
+const showDetailedInfoDialog = (id) => {
+  detailedInfoDialogVisible.value = true
+  userId.value = id
+}
+
 const getListData = async () => {
   // 第一次来到本页面向后端请求第1页的10条数据
   const result = await getVolunteerList({
@@ -102,32 +139,46 @@ const showBanConfirm = (id) => {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(async () => {
-    await banVolunteer(id).then((response) => {
-      if (response.code === 10000) {
-        ElMessage.success('封禁成功')
-      }
-      getListData()
-    })
   })
+    .then(async () => {
+      await banVolunteer(id).then((response) => {
+        if (response.code === 10000) {
+          ElMessage.success('封禁成功')
+        }
+        getListData()
+      })
+    })
+    .catch(() => {})
 }
 const showDeleteConfirm = (id) => {
   ElMessageBox.confirm('您确认要删除该志愿者吗?', '删除确认', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(async () => {
-    await deleteVolunteer(id).then((response) => {
-      if (response.code === 10000) {
-        ElMessage.success('删除成功')
-      }
-      getListData()
-    })
   })
+    .then(async () => {
+      await deleteVolunteer(id).then((response) => {
+        if (response.code === 10000) {
+          ElMessage.success('删除成功')
+        }
+        getListData()
+      })
+    })
+    .catch(() => {})
+}
+
+const setInfoChangeDialog = (visible, obj) => {
+  infoChangeDialogVisible.value = visible
+  infoObj.vName = obj.name
+  infoObj.vGender = obj.gender
+  infoObj.vIdCard = obj.idCard
+  infoObj.vPhone = obj.phone
+  infoObj.vAddress = obj.address
+  infoObj.vSpace = obj.space
 }
 </script>
 
-<style>
+<style scoped>
 .header {
   position: relative;
   margin-bottom: 20px;
@@ -145,7 +196,7 @@ const showDeleteConfirm = (id) => {
 .addButton {
   position: absolute;
   right: 0;
-  margin-right: 130px;
+  margin-right: 150px;
 }
 
 .excelExport {

@@ -1,12 +1,19 @@
 <template>
   <el-dialog
-    title="志愿者详细信息"
     :model-value="modelValue"
     @close="closeDialog"
     @opened="requestData"
-    width="50%"
+    width="60%"
   >
-    <el-descriptions class="margin-top" :column="1" border>
+    <el-descriptions
+      class="margin-top"
+      title="志愿者详细信息"
+      :column="1"
+      border
+    >
+      <template #extra>
+        <el-button type="primary" @click="changeDialog">信息修改</el-button>
+      </template>
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -18,6 +25,7 @@
         </template>
         {{ vName }}
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -29,6 +37,7 @@
         </template>
         {{ vId }}
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -40,17 +49,19 @@
         </template>
         {{ vGender }}
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
             <el-icon>
-              <Iphone />
+              <iphone />
             </el-icon>
             手机号
           </div>
         </template>
         {{ vPhone }}
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -62,6 +73,7 @@
         </template>
         {{ vAddress }}
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -73,6 +85,7 @@
         </template>
         {{ vBirthDate }}
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -84,6 +97,30 @@
         </template>
         {{ vIdCard }}
       </el-descriptions-item>
+
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <map-location />
+            </el-icon>
+            活动地点
+          </div>
+        </template>
+        {{ vSpace }}
+      </el-descriptions-item>
+
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <info-filled />
+            </el-icon>
+            工作状态
+          </div>
+        </template>
+        {{ vState }}
+      </el-descriptions-item>
     </el-descriptions>
   </el-dialog>
 </template>
@@ -91,13 +128,6 @@
 <script setup>
 import { ref } from 'vue'
 import { getVolunteerInfoById } from '@/api/volunteer-manage'
-import {
-  Iphone,
-  OfficeBuilding,
-  Tickets,
-  User,
-  Connection
-} from '@element-plus/icons-vue'
 
 const vName = ref('')
 const vId = ref()
@@ -106,16 +136,22 @@ const vIdCard = ref()
 const vPhone = ref()
 const vAddress = ref('')
 const vBirthDate = ref('')
+const vSpace = ref('')
+const vState = ref('')
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
   modelValue: {
     type: Boolean,
     required: true
+  },
+  userId: {
+    type: Number,
+    required: true
   }
 })
 // eslint-disable-next-line no-undef
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'setInfoChangeDialog'])
 
 const closeDialog = () => {
   vName.value = ''
@@ -125,10 +161,13 @@ const closeDialog = () => {
   vPhone.value = ''
   vAddress.value = ''
   vBirthDate.value = ''
+  vSpace.value = ''
+  vState.value = ''
   emits('update:modelValue', false)
 }
 
 let infoObj = {}
+
 const requestData = () => {
   getVolunteerInfoById(props.userId)
     .then((response) => {
@@ -139,26 +178,24 @@ const requestData = () => {
       vPhone.value = response.data.info.phone
       vAddress.value = response.data.info.address
       vBirthDate.value = response.data.info.birthDate
+      vSpace.value = response.data.info.space
+      vState.value = response.data.info.state
+
       infoObj = response.data.info
     })
     .catch((error) => {
       console.log(error)
     })
 }
+
+const changeDialog = () => {
+  closeDialog()
+  emits('setInfoChangeDialog', true, infoObj)
+}
 </script>
 
-<style scoped>
-.genderSelect {
-  width: 100%;
-}
-.el-descriptions {
-  margin-top: 20px;
-}
-.cell-item {
-  display: flex;
-  align-items: center;
-}
-.margin-top {
-  margin-top: 20px;
+<style>
+.el-descriptions__label.el-descriptions__cell.is-bordered-label {
+  width: 20%;
 }
 </style>

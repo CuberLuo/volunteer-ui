@@ -21,20 +21,7 @@ const routes = [
         path: 'volunteer-manage',
         name: 'volunteer-manage',
         meta: { title: '志愿者管理' },
-        component: () => import('@/views/volunteer-manage'),
-        children: [
-          {
-            path: '/detail',
-            name: 'detail',
-            meta: { title: '志愿者详情' },
-            component: () => import('@/views/volunteer-info'),
-            props({ query }) {
-              return {
-                id: query.id
-              }
-            }
-          }
-        ]
+        component: () => import('@/views/volunteer-manage')
       },
       {
         path: 'activity-manage',

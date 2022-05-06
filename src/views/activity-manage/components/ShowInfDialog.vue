@@ -6,78 +6,59 @@
     @opened="requestData"
     width="50%"
   >
-  <el-descriptions
-    class="margin-top"
-    :column="1"
-    :size="size"
-    border
-  >
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle">
-            <user />
-          </el-icon>
-          活动名称
-        </div>
-      </template>
-      {{aName}}
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle">
-            <tickets />
-          </el-icon>
-          活动编号
-        </div>
-      </template>
-      {{aId}}
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle">
-            <office-building />
-          </el-icon>
-          活动地址
-        </div>
-      </template>
-      {{aAddress}}
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <div class="cell-item">
-          <el-icon :style="iconStyle">
-            <calendar />
-          </el-icon>
-          活动时间
-        </div>
-      </template>
-      {{aDateTime}}
-    </el-descriptions-item>
-  </el-descriptions>
-
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="closeDialog">关闭</el-button>
-      </span>
-    </template>
+    <el-descriptions class="margin-top" :column="1" border>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <user />
+            </el-icon>
+            活动名称
+          </div>
+        </template>
+        {{ aName }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <tickets />
+            </el-icon>
+            活动编号
+          </div>
+        </template>
+        {{ aId }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <office-building />
+            </el-icon>
+            活动地址
+          </div>
+        </template>
+        {{ aAddress }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <calendar />
+            </el-icon>
+            活动时间
+          </div>
+        </template>
+        {{ aDateTime }}
+      </el-descriptions-item>
+    </el-descriptions>
   </el-dialog>
 </template>
 
 <script setup>
-import { computed, ref, reactive } from 'vue'
+import { computed, ref } from 'vue'
 import { getActivityInfoById } from '@/api/activity-manage'
-import { ElMessage } from 'element-plus'
-import {
-  Iphone,
-  Location,
-  OfficeBuilding,
-  Tickets,
-  User,
-  Connection
-} from '@element-plus/icons-vue'
+import { OfficeBuilding, Tickets, User } from '@element-plus/icons-vue'
 
 const aName = ref('')
 const aId = ref()
@@ -102,28 +83,6 @@ const closeDialog = () => {
   emits('update:modelValue', false)
 }
 
-const size = ref('')
-const iconStyle = computed(() => {
-  const marginMap = {
-    large: '8px',
-    default: '6px',
-    small: '4px'
-  }
-  return {
-    marginRight: marginMap[size.value] || marginMap.default
-  }
-})
-const blockMargin = computed(() => {
-  const marginMap = {
-    large: '32px',
-    default: '28px',
-    small: '24px'
-  }
-  return {
-    marginTop: marginMap[size.value] || marginMap.default
-  }
-})
-
 let infoObj = {}
 const requestData = () => {
   getActivityInfoById(props.userId)
@@ -138,7 +97,6 @@ const requestData = () => {
       console.log(error)
     })
 }
-
 </script>
 
 <style scoped>

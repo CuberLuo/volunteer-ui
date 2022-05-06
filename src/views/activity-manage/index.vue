@@ -15,13 +15,15 @@
     <el-card>
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column type="index" label="#" width="220" />
-        <el-table-column prop="name" label="活动名称" width="220" />
-        <el-table-column prop="id" label="活动编号" width="220" />
+        <el-table-column prop="name" label="活动名称" width="220" sortable />
+        <el-table-column prop="id" label="活动编号" width="220" sortable />
         <!-- 操作 -->
         <el-table-column label="操作">
           <!-- 解构scope得到row -->
           <template #default="{ row }">
-            <el-button type="primary" @click="showInfDialog">详细信息</el-button>
+            <el-button type="primary" @click="showInfDialog"
+              >详细信息</el-button
+            >
             <el-button type="danger" @click="showDeleteConfirm(row.id)"
               >删除</el-button
             >
@@ -45,10 +47,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import {
-  getActivityList,
-  deleteActivity
-} from '@/api/activity-manage'
+import { getActivityList, deleteActivity } from '@/api/activity-manage'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import AddActivityDialog from './components/AddActivityDialog.vue'
 import ShowInfDialog from './components/ShowInfDialog.vue'
@@ -95,14 +94,16 @@ const showDeleteConfirm = (id) => {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(async () => {
-    await deleteActivity(id).then((response) => {
-      if (response.code === 10000) {
-        ElMessage.success('删除成功')
-      }
-      getListData()
-    })
   })
+    .then(async () => {
+      await deleteActivity(id).then((response) => {
+        if (response.code === 10000) {
+          ElMessage.success('删除成功')
+        }
+        getListData()
+      })
+    })
+    .catch(() => {})
 }
 </script>
 

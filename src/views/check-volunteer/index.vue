@@ -1,27 +1,20 @@
 <template>
   <div class="volunteer-manage-container">
-    <el-card class="header">
-      <div class="searchBox">
-        <img
-          src="../../assets/svg/searchIcon.svg"
-          alt="search"
-          class="searchIcon"
-        />
-      </div>
-    </el-card>
     <el-card>
       <el-table :data="tableData" border style="width: 100%">
         <!-- 索引 -->
         <el-table-column type="index" label="#" width="220" />
         <!-- 姓名 -->
-        <el-table-column prop="name" label="姓名" width="220" />
+        <el-table-column prop="name" label="姓名" width="220" sortable />
         <!-- 志愿者号 -->
-        <el-table-column prop="id" label="志愿者号" width="220" />
+        <el-table-column prop="id" label="志愿者号" width="220" sortable />
         <!-- 操作 -->
         <el-table-column label="操作">
           <!-- 解构scope得到row -->
           <template #default="{ row }">
-            <el-button type="primary" @click="showInfDialog">详细信息</el-button>
+            <el-button type="primary" @click="showInfDialog"
+              >详细信息</el-button
+            >
             <el-button type="success" @click="showPassConfirm(row.id)"
               >通过</el-button
             >
@@ -91,58 +84,36 @@ const showPassConfirm = (id) => {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(async () => {
-    await passVolunteer(id).then((response) => {
-      if (response.code === 10000) {
-        ElMessage.success('成功通过申请')
-      }
-      getListData()
-    })
   })
+    .then(async () => {
+      await passVolunteer(id).then((response) => {
+        if (response.code === 10000) {
+          ElMessage.success('成功通过申请')
+        }
+        getListData()
+      })
+    })
+    .catch(() => {})
 }
 const showObjectConfirm = (id) => {
   ElMessageBox.confirm('您确定要退回该志愿者的申请吗?', '退回申请确认', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(async () => {
-    await objectVolunteer(id).then((response) => {
-      if (response.code === 10000) {
-        ElMessage.success('成功退回申请')
-      }
-      getListData()
-    })
   })
+    .then(async () => {
+      await objectVolunteer(id).then((response) => {
+        if (response.code === 10000) {
+          ElMessage.success('成功退回申请')
+        }
+        getListData()
+      })
+    })
+    .catch(() => {})
 }
 </script>
 
 <style>
-.header {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.searchBox {
-  display: inline-block;
-  margin-left: 10px;
-}
-
-.searchIcon {
-  vertical-align: middle;
-}
-
-.addButton {
-  position: absolute;
-  right: 0;
-  margin-right: 130px;
-}
-
-.excelExport {
-  position: absolute;
-  right: 0;
-  margin-right: 20px;
-}
-
 .el-pagination {
   margin-top: 15px;
   justify-content: center;

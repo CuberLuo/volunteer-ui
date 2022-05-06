@@ -1,22 +1,13 @@
 <template>
   <div class="volunteer-manage-container">
-    <el-card class="header">
-      <div class="searchBox">
-        <img
-          src="../../assets/svg/searchIcon.svg"
-          alt="search"
-          class="searchIcon"
-        />
-      </div>
-    </el-card>
     <el-card>
       <el-table :data="tableData" border style="width: 100%">
         <!-- 索引 -->
         <el-table-column type="index" label="#" width="220" />
         <!-- 姓名 -->
-        <el-table-column prop="name" label="姓名" width="220" />
+        <el-table-column prop="name" label="姓名" width="220" sortable />
         <!-- 志愿者号 -->
-        <el-table-column prop="id" label="志愿者号" width="220" />
+        <el-table-column prop="id" label="志愿者号" width="220" sortable />
         <!-- 操作 -->
         <el-table-column label="操作">
           <!-- 解构scope得到row -->
@@ -78,62 +69,40 @@ const handleSizeChange = (number) => {
   getListData()
 }
 const showRemoveConfirm = (id) => {
-  ElMessageBox.confirm('您确定要将该志愿者移出黑名单吗?', '审核通过确认', {
+  ElMessageBox.confirm('您确定要将该志愿者移出黑名单吗?', '黑名单移入确认', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(async () => {
-    await removeBlackVol(id).then((response) => {
-      if (response.code === 10000) {
-        ElMessage.success('成功移出黑名单')
-      }
-      getListData()
-    })
   })
+    .then(async () => {
+      await removeBlackVol(id).then((response) => {
+        if (response.code === 10000) {
+          ElMessage.success('成功移出黑名单')
+        }
+        getListData()
+      })
+    })
+    .catch(() => {})
 }
 const showDeleteConfirm = (id) => {
-  ElMessageBox.confirm('您确定删除该志愿者吗?', '退回申请确认', {
+  ElMessageBox.confirm('您确定删除该志愿者吗?', '删除确认', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(async () => {
-    await deleteBlackVol(id).then((response) => {
-      if (response.code === 10000) {
-        ElMessage.success('成功删除志愿者')
-      }
-      getListData()
-    })
   })
+    .then(async () => {
+      await deleteBlackVol(id).then((response) => {
+        if (response.code === 10000) {
+          ElMessage.success('成功删除志愿者')
+        }
+        getListData()
+      })
+    })
+    .catch(() => {})
 }
 </script>
 
 <style>
-.header {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.searchBox {
-  display: inline-block;
-  margin-left: 10px;
-}
-
-.searchIcon {
-  vertical-align: middle;
-}
-
-.addButton {
-  position: absolute;
-  right: 0;
-  margin-right: 130px;
-}
-
-.excelExport {
-  position: absolute;
-  right: 0;
-  margin-right: 20px;
-}
-
 .el-pagination {
   margin-top: 15px;
   justify-content: center;

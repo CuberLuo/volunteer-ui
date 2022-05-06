@@ -37,10 +37,12 @@ const confirmExit = () => {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(() => {
-    logout()
-    ElMessage.success('登出成功')
   })
+    .then(() => {
+      logout()
+      ElMessage.success('登出成功')
+    })
+    .catch(() => {})
 }
 
 const dialogVisible = ref(false)
