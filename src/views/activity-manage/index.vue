@@ -8,23 +8,33 @@
           class="searchIcon"
         />
       </div>
-      <el-button type="primary" class="addButton" @click="showAddDialog"
+      <el-button
+        type="primary"
+        :icon="Plus"
+        class="addButton"
+        @click="showAddDialog"
         >志愿活动添加</el-button
       >
-      <el-button type="success" class="excelExport" @click="showExportDialog"
+      <el-button
+        type="success"
+        :icon="Download"
+        class="excelExport"
+        @click="showExportDialog"
         >excel导出</el-button
       >
     </el-card>
     <el-card>
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column type="index" label="#" width="220" />
-        <el-table-column prop="name" label="活动名称" width="220" />
-        <el-table-column prop="id" label="活动编号" width="220" />
+        <el-table-column prop="name" label="活动名称" width="220" sortable />
+        <el-table-column prop="id" label="活动编号" width="220" sortable />
         <!-- 操作 -->
         <el-table-column label="操作">
           <!-- 解构scope得到row -->
           <template #default="{ row }">
-            <el-button type="primary" @click="showInfDialog(row.id)">详细信息</el-button>
+            <el-button type="primary" @click="showInfDialog(row.id)"
+              >详细信息</el-button
+            >
             <el-button type="danger" @click="showDeleteConfirm(row.id)"
               >删除</el-button
             >
@@ -43,8 +53,8 @@
     </el-card>
     <AddActivityDialog v-model="addActivityDialogVisible" />
     <ExportDialog v-model="exportDialogVisible" />
-    <ShowInfDialog 
-      v-model="showInfDialogVisible" 
+    <ShowInfDialog
+      v-model="showInfDialogVisible"
       :activityId="activityId"
       @setInfoChangeDialog="setInfoChangeDialog"
     />
@@ -53,16 +63,14 @@
 </template>
 
 <script setup>
-import { ref , reactive} from 'vue'
-import {
-  getActivityList,
-  deleteActivity
-} from '@/api/activity-manage'
+import { ref, reactive } from 'vue'
+import { getActivityList, deleteActivity } from '@/api/activity-manage'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import AddActivityDialog from './components/AddActivityDialog.vue'
 import ShowInfDialog from './components/ShowInfDialog.vue'
 import ExportDialog from './components/ExportDialog.vue'
 import InfoChangeDialog from './components/InfoChangeDialog.vue'
+import { Plus, Download } from '@element-plus/icons-vue'
 
 // 页面数据展示参数
 const tableData = ref([])
@@ -126,7 +134,7 @@ const showDeleteConfirm = (id) => {
 const infoObj = reactive({
   aName: '',
   aAddress: '',
-  aDateTime:''
+  aDateTime: ''
   // aStaDate: '',
   // aStaTime: '',
   // aEndDate: '',
@@ -164,7 +172,7 @@ const setInfoChangeDialog = (visible, obj) => {
 .addButton {
   position: absolute;
   right: 0;
-  margin-right: 130px;
+  margin-right: 150px;
 }
 
 .excelExport {

@@ -3,7 +3,7 @@
     title="志愿活动添加"
     :model-value="modelValue"
     @close="closeDialog"
-    width="31%"
+    width="40%"
   >
     <el-form
       ref="addFormRef"
@@ -22,7 +22,6 @@
       </el-form-item>
 
       <el-form-item name="aDateTime" label="活动时间" prop="aDateTime">
-      <el-col :span="5">
         <el-date-picker
           v-model="addForm.aDateTime"
           type="datetimerange"
@@ -31,41 +30,8 @@
           end-placeholder="活动结束时间"
           format="YYYY/MM/DD hh:mm:ss"
           value-format="x"
+          class="date-picker"
         />
-      </el-col>
-      <!-- <el-col :span="5">
-        <el-date-picker
-          v-model="addForm.aStaDate"
-          type="date"
-          placeholder="选择活动开始日期"
-          style="width: 100%"
-        />
-      </el-col>
-      <el-col :span="5">
-        <el-time-picker
-          v-model="addForm.aStaTime"
-          placeholder="选择活动开始时间"
-          style="width: 100%"
-        />
-      </el-col>
-      <el-col :span="1" class="text-center">
-        <span class="text-gray-500"><span v-html="'\u00a0\u00a0'"></span>-----</span>
-      </el-col>
-      <el-col :span="5">
-        <el-date-picker
-          v-model="addForm.aEndDate"
-          type="date"
-          placeholder="选择活动结束日期"
-          style="width: 100%"
-        />
-      </el-col>
-      <el-col :span="5">
-        <el-time-picker
-          v-model="addForm.aEndTime"
-          placeholder="选择活动结束时间"
-          style="width: 100%"
-        />
-      </el-col> -->
       </el-form-item>
     </el-form>
     <template #footer>
@@ -88,12 +54,7 @@ const addForm = reactive({
   aName: '',
   aIndex: '',
   aAddress: '',
-  // aStaDate: '',
-  // aStaTime: '',
-  // aEndDate: '',
-  // aEndTime: '',
   aDateTime: ''
-
 })
 const addFormRef = ref()
 
@@ -126,7 +87,6 @@ const addRules = reactive({
       message: '活动时间不能为空'
     }
   ]
-
 })
 
 const loading = ref(false)
@@ -164,7 +124,7 @@ const closeDialog = () => {
 </script>
 
 <style scoped>
-.genderSelect {
+.date-picker {
   width: 100%;
 }
 </style>

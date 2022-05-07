@@ -4,7 +4,7 @@
     :model-value="modelValue"
     @close="closeDialog"
     @opened="initForm"
-    width="80%"
+    width="40%"
   >
     <el-form
       ref="infoChangeFormRef"
@@ -19,7 +19,6 @@
         <el-input v-model="infoChangeForm.aAddress" maxlength="50" />
       </el-form-item>
       <el-form-item name="aDateTime" label="活动时间" prop="aDateTime">
-      <el-col :span="5">
         <el-date-picker
           v-model="infoChangeForm.aDateTime"
           type="datetimerange"
@@ -28,41 +27,8 @@
           end-placeholder="活动结束时间"
           format="YYYY/MM/DD hh:mm:ss"
           value-format="x"
+          class="date-picker"
         />
-      </el-col>
-      <!-- <el-col :span="5">
-        <el-date-picker
-          v-model="infoChangeForm.aStaDate"
-          type="date"
-          placeholder="选择活动开始日期"
-          style="width: 100%"
-        />
-      </el-col>
-      <el-col :span="5">
-        <el-time-picker
-          v-model="infoChangeForm.aStaTime"
-          placeholder="选择活动开始时间"
-          style="width: 100%"
-        />
-      </el-col>
-      <el-col :span="1" class="text-center">
-        <span class="text-gray-500"><span v-html="'\u00a0\u00a0'"></span>-----</span>
-      </el-col>
-      <el-col :span="5">
-        <el-date-picker
-          v-model="infoChangeForm.aEndDate"
-          type="date"
-          placeholder="选择活动结束日期"
-          style="width: 100%"
-        />
-      </el-col>
-      <el-col :span="5">
-        <el-time-picker
-          v-model="infoChangeForm.aEndTime"
-          placeholder="选择活动结束时间"
-          style="width: 100%"
-        />
-      </el-col> -->
       </el-form-item>
     </el-form>
     <template #footer>
@@ -79,9 +45,7 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
-import {
-  changeActivityInfo
-} from '@/api/activity-manage'
+import { changeActivityInfo } from '@/api/activity-manage'
 
 const infoChangeForm = reactive({
   aName: '',
@@ -112,7 +76,7 @@ const changeRules = reactive({
   aDateTime: [
     {
       required: true,
-      trigger: 'change',
+      trigger: 'blur',
       message: '活动时间不能为空'
     }
   ]
@@ -162,8 +126,7 @@ const initForm = () => {
 </script>
 
 <style scoped>
-.genderSelect,
-.spaceSelect {
+.date-picker {
   width: 100%;
 }
 </style>

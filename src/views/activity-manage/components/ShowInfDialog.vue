@@ -5,7 +5,12 @@
     @opened="requestData"
     width="50%"
   >
-    <el-descriptions title="志愿活动详细信息" class="margin-top" :column="1" border>
+    <el-descriptions
+      title="志愿活动详细信息"
+      class="margin-top"
+      :column="1"
+      border
+    >
       <template #extra>
         <el-button type="primary" @click="changeDialog">信息修改</el-button>
       </template>
@@ -51,7 +56,7 @@
             活动时间
           </div>
         </template>
-        {{aDateTimeSta}} 至 {{aDateTimeEnd}}
+        {{ aDateTimeSta }} 至 {{ aDateTimeEnd }}
       </el-descriptions-item>
     </el-descriptions>
   </el-dialog>
@@ -105,7 +110,10 @@ const closeDialog = () => {
 const timestampToTime = (timestamp) => {
   const date = new Date(timestamp)
   const Y = date.getFullYear() + '-'
-  const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+  const M =
+    (date.getMonth() + 1 < 10
+      ? '0' + (date.getMonth() + 1)
+      : date.getMonth() + 1) + '-'
   const D = date.getDate() + ' '
   const h = date.getHours() + ':'
   const m = date.getMinutes() + ':'
@@ -140,9 +148,9 @@ const changeDialog = () => {
 }
 </script>
 
-<style scoped>
-.genderSelect {
-  width: 100%;
+<style>
+.el-descriptions__label.el-descriptions__cell.is-bordered-label {
+  width: 20%;
 }
 .el-descriptions {
   margin-top: 20px;
