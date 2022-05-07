@@ -374,6 +374,16 @@ app.post('/changeVolunteerInfo', (request, response) => {
   response.send(responseData)
 })
 
+app.get('/volunteerSearch/:keyword', (request, response) => {
+  console.log('检索关键字:' + request.params.keyword)
+  const responseData = {
+    code: 10000,
+    msg: '志愿者信息检索成功',
+    data: {}
+  }
+  response.send(responseData)
+})
+
 app.listen(80, (err) => {
   if (!err) {
     // 请求登录信息地址为: http://localhost:80/login

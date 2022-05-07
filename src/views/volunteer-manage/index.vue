@@ -7,6 +7,14 @@
           alt="search"
           class="searchIcon"
         />
+        <el-input
+          v-model="inputKeyword"
+          class="search-input"
+          placeholder="请输入志愿者姓名关键字"
+        ></el-input>
+        <el-button :icon="Search" @click="handleSearch" class="search-button"
+          >搜索</el-button
+        >
       </div>
       <el-button
         type="primary"
@@ -74,15 +82,17 @@ import { ref, reactive } from 'vue'
 import {
   getVolunteerList,
   deleteVolunteer,
-  banVolunteer
+  banVolunteer,
+  getVolunteerListByKeyWord
 } from '@/api/volunteer-manage'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import AddVolunteerDialog from './components/AddVolunteerDialog.vue'
 import ExportDialog from './components/ExportDialog.vue'
 import DetailedInfoDialog from './components/DetailedInfoDialog.vue'
 import InfoChangeDialog from './components/InfoChangeDialog'
-import { Plus, Download } from '@element-plus/icons-vue'
+import { Plus, Download, Search } from '@element-plus/icons-vue'
 
+const inputKeyword = ref('')
 const infoObj = reactive({
   vName: '',
   vGender: '',
@@ -176,21 +186,40 @@ const setInfoChangeDialog = (visible, obj) => {
   infoObj.vAddress = obj.address
   infoObj.vSpace = obj.space
 }
+
+const handleSearch = () => {
+  const keyword = inputKeyword.value.trim()
+  if (keyword === '') {
+    ElMessage.warning('关键字不能为空')
+  } else {
+    getVolunteerListByKeyWord(keyword).then((response) => {
+      ElMessage.success(response.code.toString())
+    })
+  }
+}
 </script>
 
 <style scoped>
 .header {
   position: relative;
   margin-bottom: 20px;
+  height: 70px;
 }
 
 .searchBox {
-  display: inline-block;
+  position: absolute;
   margin-left: 10px;
 }
 
 .searchIcon {
   vertical-align: middle;
+}
+
+.search-input {
+  width: 200px;
+}
+
+.search-button {
 }
 
 .addButton {
