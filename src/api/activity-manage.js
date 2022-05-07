@@ -36,3 +36,11 @@ export const getActivityInfoById = (id) => {
     method: 'GET'
   })
 }
+
+export const changeActivityInfo = (data) => {
+  return request({
+    url: '/changeActivityInfo',
+    method: 'POST',
+    data
+  })
+}

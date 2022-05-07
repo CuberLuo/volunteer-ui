@@ -1,30 +1,27 @@
 <template>
   <el-dialog
-    title="志愿活动添加"
+    title="志愿活动信息修改"
     :model-value="modelValue"
     @close="closeDialog"
-    width="31%"
+    @opened="initForm"
+    width="80%"
   >
     <el-form
-      ref="addFormRef"
-      :model="addForm"
-      :rules="addRules"
+      ref="infoChangeFormRef"
+      :model="infoChangeForm"
+      :rules="changeRules"
       label-width="100px"
     >
       <el-form-item label="活动名称" prop="aName">
-        <el-input name="aName" v-model="addForm.aName" maxlength="20" />
+        <el-input name="aName" v-model="infoChangeForm.aName" maxlength="20" />
       </el-form-item>
-      <el-form-item name="aIndex" label="活动编号" prop="aIndex">
-        <el-input v-model="addForm.aIndex" />
+      <el-form-item name="vAddress" label="活动地点" prop="aAddress">
+        <el-input v-model="infoChangeForm.aAddress" maxlength="50" />
       </el-form-item>
-      <el-form-item name="aAddress" label="活动地点" prop="aAddress">
-        <el-input v-model="addForm.aAddress" />
-      </el-form-item>
-
       <el-form-item name="aDateTime" label="活动时间" prop="aDateTime">
       <el-col :span="5">
         <el-date-picker
-          v-model="addForm.aDateTime"
+          v-model="infoChangeForm.aDateTime"
           type="datetimerange"
           range-separator="至"
           start-placeholder="活动开始时间"
@@ -35,7 +32,7 @@
       </el-col>
       <!-- <el-col :span="5">
         <el-date-picker
-          v-model="addForm.aStaDate"
+          v-model="infoChangeForm.aStaDate"
           type="date"
           placeholder="选择活动开始日期"
           style="width: 100%"
@@ -43,7 +40,7 @@
       </el-col>
       <el-col :span="5">
         <el-time-picker
-          v-model="addForm.aStaTime"
+          v-model="infoChangeForm.aStaTime"
           placeholder="选择活动开始时间"
           style="width: 100%"
         />
@@ -53,7 +50,7 @@
       </el-col>
       <el-col :span="5">
         <el-date-picker
-          v-model="addForm.aEndDate"
+          v-model="infoChangeForm.aEndDate"
           type="date"
           placeholder="选择活动结束日期"
           style="width: 100%"
@@ -61,7 +58,7 @@
       </el-col>
       <el-col :span="5">
         <el-time-picker
-          v-model="addForm.aEndTime"
+          v-model="infoChangeForm.aEndTime"
           placeholder="选择活动结束时间"
           style="width: 100%"
         />
@@ -71,7 +68,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
-        <el-button type="primary" @click="handleAdd" :loading="loading"
+        <el-button type="primary" @click="handleChange" :loading="loading"
           >确认</el-button
         >
       </span>
@@ -81,23 +78,23 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { addActivity } from '@/api/activity-manage'
 import { ElMessage } from 'element-plus'
+import {
+  changeActivityInfo
+} from '@/api/activity-manage'
 
-const addForm = reactive({
+const infoChangeForm = reactive({
   aName: '',
-  aIndex: '',
   aAddress: '',
+  aDateTime: []
   // aStaDate: '',
   // aStaTime: '',
   // aEndDate: '',
-  // aEndTime: '',
-  aDateTime: ''
-
+  // aEndTime: ''
 })
-const addFormRef = ref()
+const infoChangeFormRef = ref()
 
-const addRules = reactive({
+const changeRules = reactive({
   aName: [
     {
       required: true,
@@ -105,43 +102,33 @@ const addRules = reactive({
       message: '活动名称不能为空'
     }
   ],
-  aIndex: [
-    {
-      required: true,
-      trigger: 'blur',
-      message: '活动编号不能为空'
-    }
-  ],
   aAddress: [
     {
       required: true,
       trigger: 'blur',
-      message: '活动地址不能为空'
+      message: '活动地点不能为空'
     }
   ],
   aDateTime: [
     {
       required: true,
-      trigger: 'blur',
+      trigger: 'change',
       message: '活动时间不能为空'
     }
   ]
-
 })
+const options = ref([])
 
 const loading = ref(false)
 
-const handleAdd = () => {
-  addFormRef.value.validate(async (valid) => {
+const handleChange = () => {
+  infoChangeFormRef.value.validate(async (valid) => {
     if (!valid) return
     loading.value = true
-    await addActivity(addForm).then((response) => {
+    await changeActivityInfo(infoChangeForm).then((response) => {
       if (response.code === 10000) {
-        console.log(addForm.aDateTime)
-        ElMessage.success('活动添加成功')
-        addFormRef.value.resetFields()
-      } else if (response.code === 10010) {
-        ElMessage.error('活动已存在')
+        ElMessage.success('修改成功')
+        closeDialog()
       }
     })
     loading.value = false
@@ -153,18 +140,30 @@ const props = defineProps({
   modelValue: {
     type: Boolean,
     required: true
+  },
+  infoObj: {
+    type: Object,
+    required: true
   }
 })
 // eslint-disable-next-line no-undef
 const emits = defineEmits(['update:modelValue'])
 
 const closeDialog = () => {
+  infoChangeFormRef.value.resetFields()
   emits('update:modelValue', false)
+}
+
+const initForm = () => {
+  infoChangeForm.aName = props.infoObj.aName
+  infoChangeForm.aAddress = props.infoObj.aAddress
+  infoChangeForm.aDateTime = props.infoObj.aDateTime
 }
 </script>
 
 <style scoped>
-.genderSelect {
+.genderSelect,
+.spaceSelect {
   width: 100%;
 }
 </style>

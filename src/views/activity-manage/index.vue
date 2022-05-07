@@ -11,19 +11,20 @@
       <el-button type="primary" class="addButton" @click="showAddDialog"
         >志愿活动添加</el-button
       >
+      <el-button type="success" class="excelExport" @click="showExportDialog"
+        >excel导出</el-button
+      >
     </el-card>
     <el-card>
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column type="index" label="#" width="220" />
-        <el-table-column prop="name" label="活动名称" width="220" sortable />
-        <el-table-column prop="id" label="活动编号" width="220" sortable />
+        <el-table-column prop="name" label="活动名称" width="220" />
+        <el-table-column prop="id" label="活动编号" width="220" />
         <!-- 操作 -->
         <el-table-column label="操作">
           <!-- 解构scope得到row -->
           <template #default="{ row }">
-            <el-button type="primary" @click="showInfDialog"
-              >详细信息</el-button
-            >
+            <el-button type="primary" @click="showInfDialog(row.id)">详细信息</el-button>
             <el-button type="danger" @click="showDeleteConfirm(row.id)"
               >删除</el-button
             >
@@ -41,16 +42,27 @@
       ></el-pagination>
     </el-card>
     <AddActivityDialog v-model="addActivityDialogVisible" />
-    <ShowInfDialog v-model="showInfDialogVisible" />
+    <ExportDialog v-model="exportDialogVisible" />
+    <ShowInfDialog 
+      v-model="showInfDialogVisible" 
+      :activityId="activityId"
+      @setInfoChangeDialog="setInfoChangeDialog"
+    />
+    <InfoChangeDialog v-model="infoChangeDialogVisible" :infoObj="infoObj" />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { getActivityList, deleteActivity } from '@/api/activity-manage'
+import { ref , reactive} from 'vue'
+import {
+  getActivityList,
+  deleteActivity
+} from '@/api/activity-manage'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import AddActivityDialog from './components/AddActivityDialog.vue'
 import ShowInfDialog from './components/ShowInfDialog.vue'
+import ExportDialog from './components/ExportDialog.vue'
+import InfoChangeDialog from './components/InfoChangeDialog.vue'
 
 // 页面数据展示参数
 const tableData = ref([])
@@ -58,14 +70,21 @@ const total = ref(0) // 总条目数
 const page = ref(1) // 当前页数
 const size = ref(10) // 每页显示条目个数
 
+const activityId = ref(-1)
 const showInfDialogVisible = ref(false)
-const showInfDialog = () => {
+const showInfDialog = (id) => {
   showInfDialogVisible.value = true
+  activityId.value = id
 }
 
 const addActivityDialogVisible = ref(false)
 const showAddDialog = () => {
   addActivityDialogVisible.value = true
+}
+
+const exportDialogVisible = ref(false)
+const showExportDialog = () => {
+  exportDialogVisible.value = true
 }
 
 const getListData = async () => {
@@ -94,16 +113,36 @@ const showDeleteConfirm = (id) => {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
-  })
-    .then(async () => {
-      await deleteActivity(id).then((response) => {
-        if (response.code === 10000) {
-          ElMessage.success('删除成功')
-        }
-        getListData()
-      })
+  }).then(async () => {
+    await deleteActivity(id).then((response) => {
+      if (response.code === 10000) {
+        ElMessage.success('删除成功')
+      }
+      getListData()
     })
-    .catch(() => {})
+  })
+}
+
+const infoObj = reactive({
+  aName: '',
+  aAddress: '',
+  aDateTime:''
+  // aStaDate: '',
+  // aStaTime: '',
+  // aEndDate: '',
+  // aEndTime: ''
+})
+
+const infoChangeDialogVisible = ref(false)
+const setInfoChangeDialog = (visible, obj) => {
+  infoChangeDialogVisible.value = visible
+  infoObj.aName = obj.name
+  infoObj.aAddress = obj.address
+  infoObj.aDateTime = obj.dateTime
+  // infoObj.aStaDate = obj.aStaDate
+  // infoObj.aEndDate = obj.aEndDate
+  // infoObj.aStaTime = obj.aStaTime
+  // infoObj.aEndTime = obj.aEndTime
 }
 </script>
 

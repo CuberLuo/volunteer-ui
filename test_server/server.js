@@ -247,12 +247,41 @@ app.post('/activityList', (request, response) => {
   response.send(responseData)
 })
 
+app.get('/getAllActivityList', (request, response) => {
+  const allActivityList = []
+  for (let i = 0; i < 88; i++) {
+    const obj = Mock.mock({
+      id: '@integer(100001,101000)',
+      name: '@ctitle',
+      dateTime: '@datetime("yy-MM-dd  HH:mm")',
+      address: '@county(true)'
+    })
+    allActivityList.push(obj)
+  }
+  const responseData = {
+    code: 10000,
+    msg: '获取所有活动列表成功',
+    data: {
+      list: allActivityList
+    }
+  }
+
+  response.send(responseData)
+})
+
 app.get('/activityInfo/:id', (request, response) => {
   const obj = Mock.mock({
     id: '@integer(100001,101000)',
     name: '@ctitle',
-    birthDate: '@datetime("yy-MM-dd  HH:mm")',
-    address: '@county(true)'
+    address: '@county(true)',
+    dateTime: [
+      '@integer(1000000000000,9999999999999)',
+      '@integer(1000000000000,9999999999999)'
+    ]
+    // aStaDate: '@date("yy-MM-dd")',
+    // aStaTime: '@time("HH:mm")',
+    // aEndDate: '@date("yy-MM-dd")',
+    // aEndTime: '@time("HH:mm")'
   })
   const responseData = {
     code: 10000,
@@ -369,6 +398,16 @@ app.post('/changeVolunteerInfo', (request, response) => {
   const responseData = {
     code: 10000,
     msg: '志愿者信息修改成功',
+    data: {}
+  }
+  response.send(responseData)
+})
+
+app.post('/changeActivityInfo', (request, response) => {
+  console.log(request.body)
+  const responseData = {
+    code: 10000,
+    msg: '志愿活动信息修改成功',
     data: {}
   }
   response.send(responseData)
