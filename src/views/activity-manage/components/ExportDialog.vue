@@ -57,6 +57,18 @@ const emits = defineEmits(['update:modelValue'])
 const closeDialog = () => {
   emits('update:modelValue', false)
 }
+// 将时间戳转化为时间
+const timestampToTime = (timestamp) => {
+  const date = new Date(timestamp)
+  const Y = date.getFullYear() + '-'
+  const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+  const D = date.getDate() + ' '
+  const h = date.getHours() + ':'
+  const m = date.getMinutes() + ':'
+  const s = date.getSeconds()
+  return Y + M + D + h + m + s
+}
+
 
 const loading = ref(false)
 const handleExport = () => {
@@ -64,6 +76,12 @@ const handleExport = () => {
     if (!valid) return
     loading.value = true
     const allActivity = (await getAllActivityList()).data.list
+    for (let item of allActivity) {
+      console.log(item.dateTime[0])
+      console.log(timestampToTime(item.dateTime[0]))
+      item.dateTime[0] = timestampToTime(item.dateTime[0])
+      item.dateTime[1] = timestampToTime(item.dateTime[1])
+    }
     // console.log(allVolunteer)
     // 动态导入Export2Excel
     const excel = await import('@/utils/Export2Excel')
@@ -74,7 +92,7 @@ const handleExport = () => {
       header: [
         '志愿活动编号',
         '活动名称',
-        '活动时间',
+        '活动起止时间',
         '活动地点'
       ],
       // excel 数据（二维数组结构）

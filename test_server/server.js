@@ -253,7 +253,10 @@ app.get('/getAllActivityList', (request, response) => {
     const obj = Mock.mock({
       id: '@integer(100001,101000)',
       name: '@ctitle',
-      dateTime: '@datetime("yy-MM-dd  HH:mm")',
+      dateTime: [
+        '@integer(1000000000000,9999999999999)',
+        '@integer(1000000000000,9999999999999)'
+      ],
       address: '@county(true)'
     })
     allActivityList.push(obj)
