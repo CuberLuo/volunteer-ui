@@ -10,9 +10,21 @@
   </div>
 </template>
 
-<script setup>
-import { useRoute } from 'vue-router'
-const route = useRoute()
-</script>
+<script setup></script>
 
-<style scoped></style>
+<style scoped>
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.4s;
+}
+
+.fade-transform-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+</style>

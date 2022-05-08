@@ -58,3 +58,11 @@ export const changeVolunteerInfo = (data) => {
     data
   })
 }
+
+export const getVolunteerListByKeyWord = (keyword) => {
+  return request({
+    url: `/volunteerSearch/${keyword}`,
+    method: 'GET',
+    keyword
+  })
+}
