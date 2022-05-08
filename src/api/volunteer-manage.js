@@ -59,10 +59,10 @@ export const changeVolunteerInfo = (data) => {
   })
 }
 
-export const getVolunteerListByKeyWord = (keyword) => {
+export const getVolunteerOrderList = (data) => {
   return request({
-    url: `/volunteerSearch/${keyword}`,
-    method: 'GET',
-    keyword
+    url: '/volunteerOrderList',
+    method: 'POST',
+    data
   })
 }

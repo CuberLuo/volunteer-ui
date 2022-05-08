@@ -72,10 +72,6 @@ const aId = ref()
 const aAddress = ref('')
 const aDateTimeSta = ref('')
 const aDateTimeEnd = ref('')
-// const aStaDate = ref('')
-// const aStaTime = ref('')
-// const aEndDate = ref('')
-// const aEndTime = ref('')
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -97,10 +93,6 @@ const closeDialog = () => {
   aName.value = ''
   aId.value = ''
   aAddress.value = ''
-  // aStaDate.value = ''
-  // aStaTime.value = ''
-  // aEndDate.value = ''
-  // aEndTime.value = ''
   aDateTimeSta.value = ''
   aDateTimeEnd.value = ''
   emits('update:modelValue', false)
@@ -123,18 +115,13 @@ const timestampToTime = (timestamp) => {
 
 let infoObj = {}
 const requestData = () => {
-  getActivityInfoById(props.userId)
+  getActivityInfoById(props.activityId)
     .then((response) => {
       aName.value = response.data.info.name
       aId.value = response.data.info.id
       aAddress.value = response.data.info.address
       aDateTimeSta.value = timestampToTime(response.data.info.dateTime[0])
       aDateTimeEnd.value = timestampToTime(response.data.info.dateTime[1])
-      // aDateTime.value = response.data.info.dateTime
-      // aStaDate.value = response.data.info.aStaDate
-      // aStaTime.value = response.data.info.aStaTime
-      // aEndDate.value = response.data.info.aEndDate
-      // aEndTime.value = response.data.info.aEndTime
       infoObj = response.data.info
     })
     .catch((error) => {

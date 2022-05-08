@@ -32,13 +32,24 @@
       >
     </el-card>
     <el-card>
-      <el-table :data="tableData" border style="width: 100%">
+      <el-table
+        v-loading="loading"
+        :data="tableData"
+        @sort-change="changeTableSort"
+        border
+        style="width: 100%"
+      >
         <!-- 索引 -->
         <el-table-column type="index" label="#" width="220" />
         <!-- 姓名 -->
-        <el-table-column prop="name" label="姓名" width="220" sortable />
+        <el-table-column prop="name" label="姓名" width="220" />
         <!-- 志愿者号 -->
-        <el-table-column prop="id" label="志愿者号" width="220" sortable />
+        <el-table-column
+          prop="id"
+          label="志愿者号"
+          width="220"
+          sortable="custom"
+        />
         <!-- 操作 -->
         <el-table-column label="操作">
           <!-- 解构scope得到row -->
@@ -73,7 +84,11 @@
       @setInfoChangeDialog="setInfoChangeDialog"
     />
 
-    <InfoChangeDialog v-model="infoChangeDialogVisible" :infoObj="infoObj" />
+    <InfoChangeDialog
+      v-model="infoChangeDialogVisible"
+      :infoObj="infoObj"
+      @getListData="getListData"
+    />
   </div>
 </template>
 
@@ -83,7 +98,7 @@ import {
   getVolunteerList,
   deleteVolunteer,
   banVolunteer,
-  getVolunteerListByKeyWord
+  getVolunteerOrderList
 } from '@/api/volunteer-manage'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import AddVolunteerDialog from './components/AddVolunteerDialog.vue'
@@ -91,8 +106,15 @@ import ExportDialog from './components/ExportDialog.vue'
 import DetailedInfoDialog from './components/DetailedInfoDialog.vue'
 import InfoChangeDialog from './components/InfoChangeDialog'
 import { Plus, Download, Search } from '@element-plus/icons-vue'
+import router from '@/router'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
-const inputKeyword = ref('')
+const routePage = route.query.page
+const routeSize = route.query.size
+const routeKeyword = route.query.keyword
+
+const inputKeyword = ref(route.query.keyword === undefined ? '' : routeKeyword)
 const infoObj = reactive({
   vName: '',
   vGender: '',
@@ -105,8 +127,20 @@ const infoChangeDialogVisible = ref(false)
 // 页面数据展示参数
 const tableData = ref([])
 const total = ref(0) // 总条目数
-const page = ref(1) // 当前页数
-const size = ref(10) // 每页显示条目个数
+const page = ref(routePage === undefined ? 1 : parseInt(routePage)) // 当前页数
+const size = ref(routeSize === undefined ? 10 : parseInt(routeSize)) // 每页显示条目个数
+const keyword = ref(routeKeyword)
+
+const changeTableSort = async ({ column, prop, order }) => {
+  const result = await getVolunteerOrderList({
+    page: page.value,
+    size: size.value,
+    prop: prop, // el-table-column的prop值
+    order: order // 升序ascending 降序descending 默认null
+  })
+  tableData.value = result.data.list
+  total.value = result.data.total
+}
 
 const addVolunteerDialogVisible = ref(false)
 const showAddDialog = () => {
@@ -124,24 +158,43 @@ const showDetailedInfoDialog = (id) => {
   userId.value = id
 }
 
+const loading = ref(false)
 const getListData = async () => {
+  // console.log('请求当前页数据')
   // 第一次来到本页面向后端请求第1页的10条数据
+  loading.value = true
   const result = await getVolunteerList({
     page: page.value,
-    size: size.value
+    size: size.value,
+    keyword: keyword.value
   })
+  loading.value = false
   tableData.value = result.data.list
   total.value = result.data.total
 }
 getListData()
 
 const handleCurrentChange = (number) => {
-  page.value = number
+  router.push({
+    path: '/volunteer-manage',
+    query: {
+      page: number,
+      size: size.value,
+      keyword: keyword.value
+    }
+  })
   getListData()
 }
 
 const handleSizeChange = (number) => {
-  size.value = number
+  router.push({
+    path: '/volunteer-manage',
+    query: {
+      page: page.value,
+      size: number,
+      keyword: keyword.value
+    }
+  })
   getListData()
 }
 const showBanConfirm = (id) => {
@@ -187,15 +240,20 @@ const setInfoChangeDialog = (visible, obj) => {
   infoObj.vSpace = obj.space
 }
 
-const handleSearch = () => {
-  const keyword = inputKeyword.value.trim()
-  if (keyword === '') {
-    ElMessage.warning('关键字不能为空')
-  } else {
-    getVolunteerListByKeyWord(keyword).then((response) => {
-      ElMessage.success(response.code.toString())
-    })
-  }
+const handleSearch = async () => {
+  const keywordInput = inputKeyword.value.trim()
+  keyword.value = keywordInput
+  page.value = 1
+  size.value = 10
+  router.push({
+    path: '/volunteer-manage',
+    query: {
+      page: page.value,
+      size: size.value,
+      keyword: keyword.value
+    }
+  })
+  getListData()
 }
 </script>
 
@@ -217,9 +275,6 @@ const handleSearch = () => {
 
 .search-input {
   width: 200px;
-}
-
-.search-button {
 }
 
 .addButton {

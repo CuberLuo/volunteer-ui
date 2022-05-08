@@ -150,6 +150,7 @@ const handleChange = () => {
       if (response.code === 10000) {
         ElMessage.success('修改成功')
         closeDialog()
+        emits('getListData')
       }
     })
     loading.value = false
@@ -168,7 +169,7 @@ const props = defineProps({
   }
 })
 // eslint-disable-next-line no-undef
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'getListData'])
 
 const closeDialog = () => {
   infoChangeFormRef.value.resetFields()

@@ -4,7 +4,6 @@
       <el-avatar :size="40" :src="circleUrl" />
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>修改头像</el-dropdown-item>
           <el-dropdown-item @click="showChangePsdDialog"
             >修改密码</el-dropdown-item
           >

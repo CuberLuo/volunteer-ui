@@ -74,20 +74,52 @@ app.post('/volunteerList', (request, response) => {
   const currentPageVolunteerList = []
   const page = request.body.page
   const size = request.body.size
-  const total = 88
+  const keyword = request.body.keyword
+  console.log('请求第' + page + '页,页尺寸:' + size + ',关键字:' + keyword)
+  const total = keyword === undefined || keyword === '' ? 88 : 24
   const startIndex = (page - 1) * size
   const endIndex = startIndex + size < total ? startIndex + size : total
   for (let i = startIndex; i < endIndex; i++) {
     const obj = Mock.mock({
       id: '@integer(100001,101000)',
-      name: '@cname',
-      'gender|1': ['男', '女']
+      name: '@cname'
     })
     currentPageVolunteerList.push(obj)
   }
   const responseData = {
     code: 10000,
     msg: '获取志愿者列表成功',
+    data: {
+      list: currentPageVolunteerList,
+      total: total, // 总的数据条数
+      page: page // 当前页
+    }
+  }
+
+  response.send(responseData)
+})
+
+app.post('/volunteerOrderList', (request, response) => {
+  const currentPageVolunteerList = []
+  const page = request.body.page
+  const size = request.body.size
+  const prop = request.body.prop
+  const order = request.body.order
+  console.log('排序列:' + prop + ' 排序方式:' + order)
+  const total = 88
+  const startIndex = (page - 1) * size
+  const endIndex = startIndex + size < total ? startIndex + size : total
+  // 处理排序好的数据返回给前端
+  for (let i = startIndex; i < endIndex; i++) {
+    const obj = Mock.mock({
+      id: '@integer(100001,101000)',
+      name: '@cname'
+    })
+    currentPageVolunteerList.push(obj)
+  }
+  const responseData = {
+    code: 10000,
+    msg: '获取排序后志愿者列表成功',
     data: {
       list: currentPageVolunteerList,
       total: total, // 总的数据条数
@@ -281,14 +313,10 @@ app.get('/activityInfo/:id', (request, response) => {
       '@integer(1000000000000,9999999999999)',
       '@integer(1000000000000,9999999999999)'
     ]
-    // aStaDate: '@date("yy-MM-dd")',
-    // aStaTime: '@time("HH:mm")',
-    // aEndDate: '@date("yy-MM-dd")',
-    // aEndTime: '@time("HH:mm")'
   })
   const responseData = {
     code: 10000,
-    msg: '获取志愿者详细信息成功',
+    msg: '获取活动详细信息成功',
     data: {
       info: obj
     }
@@ -415,15 +443,32 @@ app.post('/changeActivityInfo', (request, response) => {
   }
   response.send(responseData)
 })
-app.get('/volunteerSearch/:keyword', (request, response) => {
-  console.log('检索关键字:' + request.params.keyword)
-  const responseData = {
-    code: 10000,
-    msg: '志愿者信息检索成功',
-    data: {}
-  }
-  response.send(responseData)
-})
+// app.post('/volunteerSearch', (request, response) => {
+//   console.log('检索关键字:' + request.body.keyword)
+//   const page = request.body.page
+//   const size = request.body.size
+//   const total = 12
+//   const startIndex = (page - 1) * size
+//   const endIndex = startIndex + size < total ? startIndex + size : total
+//   const searchPageVolunteerList = []
+//   for (let i = startIndex; i < endIndex; i++) {
+//     const obj = Mock.mock({
+//       id: '@integer(100001,101000)',
+//       name: '@cname'
+//     })
+//     searchPageVolunteerList.push(obj)
+//   }
+//   const responseData = {
+//     code: 10000,
+//     msg: '志愿者信息检索成功',
+//     data: {
+//       list: searchPageVolunteerList,
+//       total: total, // 总的数据条数
+//       page: page // 当前页
+//     }
+//   }
+//   response.send(responseData)
+// })
 
 app.listen(80, (err) => {
   if (!err) {

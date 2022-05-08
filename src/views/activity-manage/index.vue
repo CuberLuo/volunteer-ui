@@ -7,6 +7,14 @@
           alt="search"
           class="searchIcon"
         />
+        <el-input
+          v-model="inputKeyword"
+          class="search-input"
+          placeholder="请输入志愿活动名称关键字"
+        ></el-input>
+        <el-button :icon="Search" @click="handleSearch" class="search-button"
+          >搜索</el-button
+        >
       </div>
       <el-button
         type="primary"
@@ -24,9 +32,14 @@
       >
     </el-card>
     <el-card>
-      <el-table :data="tableData" border style="width: 100%">
+      <el-table
+        v-loading="loading"
+        :data="tableData"
+        border
+        style="width: 100%"
+      >
         <el-table-column type="index" label="#" width="220" />
-        <el-table-column prop="name" label="活动名称" width="220" sortable />
+        <el-table-column prop="name" label="活动名称" width="220" />
         <el-table-column prop="id" label="活动编号" width="220" sortable />
         <!-- 操作 -->
         <el-table-column label="操作">
@@ -58,7 +71,11 @@
       :activityId="activityId"
       @setInfoChangeDialog="setInfoChangeDialog"
     />
-    <InfoChangeDialog v-model="infoChangeDialogVisible" :infoObj="infoObj" />
+    <InfoChangeDialog
+      v-model="infoChangeDialogVisible"
+      :infoObj="infoObj"
+      @getListData="getListData"
+    />
   </div>
 </template>
 
@@ -95,12 +112,15 @@ const showExportDialog = () => {
   exportDialogVisible.value = true
 }
 
+const loading = ref(false)
 const getListData = async () => {
   // 第一次来到本页面向后端请求第1页的10条数据
+  loading.value = true
   const result = await getActivityList({
     page: page.value,
     size: size.value
   })
+  loading.value = false
   tableData.value = result.data.list
   total.value = result.data.total
 }
@@ -135,10 +155,6 @@ const infoObj = reactive({
   aName: '',
   aAddress: '',
   aDateTime: ''
-  // aStaDate: '',
-  // aStaTime: '',
-  // aEndDate: '',
-  // aEndTime: ''
 })
 
 const infoChangeDialogVisible = ref(false)
@@ -147,10 +163,6 @@ const setInfoChangeDialog = (visible, obj) => {
   infoObj.aName = obj.name
   infoObj.aAddress = obj.address
   infoObj.aDateTime = obj.dateTime
-  // infoObj.aStaDate = obj.aStaDate
-  // infoObj.aEndDate = obj.aEndDate
-  // infoObj.aStaTime = obj.aStaTime
-  // infoObj.aEndTime = obj.aEndTime
 }
 </script>
 
@@ -158,15 +170,20 @@ const setInfoChangeDialog = (visible, obj) => {
 .header {
   position: relative;
   margin-bottom: 20px;
+  height: 70px;
 }
 
 .searchBox {
-  display: inline-block;
+  position: absolute;
   margin-left: 10px;
 }
 
 .searchIcon {
   vertical-align: middle;
+}
+
+.search-input {
+  width: 200px;
 }
 
 .addButton {

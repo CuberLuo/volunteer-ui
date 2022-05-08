@@ -1,11 +1,16 @@
 <template>
   <div class="volunteer-manage-container">
     <el-card>
-      <el-table :data="tableData" border style="width: 100%">
+      <el-table
+        v-loading="loading"
+        :data="tableData"
+        border
+        style="width: 100%"
+      >
         <!-- 索引 -->
         <el-table-column type="index" label="#" width="220" />
         <!-- 姓名 -->
-        <el-table-column prop="name" label="姓名" width="220" sortable />
+        <el-table-column prop="name" label="姓名" width="220" />
         <!-- 志愿者号 -->
         <el-table-column prop="id" label="志愿者号" width="220" sortable />
         <!-- 操作 -->
@@ -59,12 +64,15 @@ const showInfDialog = () => {
   showInfDialogVisible.value = true
 }
 
+const loading = ref(false)
 const getListData = async () => {
   // 第一次来到本页面向后端请求第1页的10条数据
+  loading.value = true
   const result = await getCheckVolList({
     page: page.value,
     size: size.value
   })
+  loading.value = false
   tableData.value = result.data.list
   total.value = result.data.total
 }
