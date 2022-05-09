@@ -1,47 +1,52 @@
 <template>
-<body>
-  <div class="bg">
-  <div id="login-box">
-    <img src="../../assets/system-icon.png" width="300" height="100">
-    <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
-      <div>
-        <h2>登录</h2>
+  <body>
+    <div class="bg">
+      <div id="login-box">
+        <img src="../../assets/system-icon.png" class="sys-img" />
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
+          <div>
+            <h2>系统登录</h2>
+          </div>
+          <!-- username -->
+          <div class="input-box">
+            <el-form-item prop="username">
+              <el-input
+                class="input"
+                placeholder="用户名"
+                prefix-icon="avatar"
+                name="username"
+                type="text"
+                v-model="loginForm.username"
+              ></el-input>
+            </el-form-item>
+          </div>
+          <!-- password -->
+          <div class="input-box">
+            <el-form-item prop="password">
+              <el-input
+                class="input"
+                placeholder="密码"
+                prefix-icon="lock"
+                name="password"
+                type="password"
+                v-model="loginForm.password"
+                width="10px"
+              ></el-input>
+            </el-form-item>
+          </div>
+          <!-- 登录按钮 -->
+          <el-button
+            class="bt"
+            type="primary"
+            :loading="loading"
+            @click="handleLogin"
+          >
+            登录
+          </el-button>
+        </el-form>
       </div>
-      <!-- username -->
-      <div class="input-box">
-      <el-form-item prop="username">
-        <el-input
-          class="input"
-          placeholder="用户名"
-          prefix-icon="avatar"
-          name="username"
-          type="text"
-          v-model="loginForm.username"
-        ></el-input>
-      </el-form-item>
-      </div>
-      <!-- password -->
-      <div class="input-box">
-      <el-form-item prop="password">
-        <el-input
-          class="input"
-          placeholder="密码"
-          prefix-icon="lock"
-          name="password"
-          type="password"
-          v-model="loginForm.password"
-          width="10px"
-        ></el-input>
-      </el-form-item>
-      </div>
-      <!-- 登录按钮 -->
-      <el-button class='bt' type="primary" :loading="loading" @click="handleLogin">
-        登录
-      </el-button>
-    </el-form>
-  </div>
-  </div>
-</body>
+    </div>
+  </body>
 </template>
 
 <script setup>
@@ -104,74 +109,72 @@ const handleLogin = () => {
 </script>
 
 <style scoped>
-html{
-  height:100%;
+html {
+  height: 100%;
 }
-body{
-  margin:0;
-  padding:0;
+body {
+  margin: 0;
+  padding: 0;
 }
-h2{
-	padding-top: 10px;
-	color: #ac97ea;
-  font-size: "黑体";
+h2 {
+  padding-top: 10px;
+  color: #ac97ea;
   margin-bottom: 30px;
+  font-size: 25px;
 }
-div.bg{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:url('../../assets/login_bg.jpg') no-repeat center 0;
-  background-size:cover;
+div.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../../assets/login_bg.jpg') no-repeat center 0;
+  background-size: cover;
 }
-#login-box{
-	background-color: #f6f0f068;
-	border-radius: 13px;
-	text-align: center;
-	margin: auto;
-	margin-top: 100px;
-	width: 400px;
-	height: 420px;
+#login-box {
+  background-color: #f6f0f068;
+  border-radius: 13px;
+  text-align: center;
+  margin: auto;
+  margin-top: 145px;
+  width: 400px;
+  height: 420px;
+}
+
+.sys-img {
+  width: 70%;
 }
 
 .input {
-	border: none;
+  border: none;
   width: 335px;
-	background: none;
-	padding: 5px 10px;
+  background: none;
+  padding: 5px 10px;
   margin: auto;
-	outline: none;
-	color: #fcfefb;
+  outline: none;
+  color: #fcfefb;
 }
 
-.bt{
-	line-height:30px;
-	margin-top: 30px;
-	width: 130px;
-	height: 30px;
-	border-radius:13px ;
-	outline: none;
-	border: none;
-	background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
-	color: #FFFFFF;
+.bt {
+  line-height: 30px;
+  margin-top: 30px;
+  width: 130px;
+  height: 30px;
+  border-radius: 13px;
+  outline: none;
+  border: none;
+  background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+  color: #ffffff;
 }
 
-.bt:hover{
-	background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+.bt:hover {
+  background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
 }
-.el-form-item>>> .el-form-item__error{
-  color: #e6a23c;
+.el-form-item :deep(.el-form-item__error) {
   margin: auto;
   left: 12%;
   top: 100%;
   padding-top: 4px;
   position: absolute;
-  border-color: #e6a23c;
 }
- .el-form-item>>> .el-form-item.is-error .el-input__inner {
-  border-color: #e6a23c;
-}
-
 </style>
