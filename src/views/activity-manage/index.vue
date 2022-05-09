@@ -88,12 +88,21 @@ import ShowInfDialog from './components/ShowInfDialog.vue'
 import ExportDialog from './components/ExportDialog.vue'
 import InfoChangeDialog from './components/InfoChangeDialog.vue'
 import { Plus, Download } from '@element-plus/icons-vue'
+import router from '@/router'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const routePage = route.query.page
+const routeSize = route.query.size
+const routeKeyword = route.query.keyword
+const inputKeyword = ref(route.query.keyword === undefined ? '' : routeKeyword)
 
 // 页面数据展示参数
 const tableData = ref([])
 const total = ref(0) // 总条目数
-const page = ref(1) // 当前页数
-const size = ref(10) // 每页显示条目个数
+const page = ref(routePage === undefined ? 1 : parseInt(routePage)) // 当前页数
+const size = ref(routeSize === undefined ? 10 : parseInt(routeSize)) // 每页显示条目个数
+const keyword = ref(routeKeyword)
 
 const activityId = ref(-1)
 const showInfDialogVisible = ref(false)
@@ -118,7 +127,8 @@ const getListData = async () => {
   loading.value = true
   const result = await getActivityList({
     page: page.value,
-    size: size.value
+    size: size.value,
+    keyword: keyword.value
   })
   loading.value = false
   tableData.value = result.data.list
@@ -127,12 +137,26 @@ const getListData = async () => {
 getListData()
 
 const handleCurrentChange = (number) => {
-  page.value = number
+  router.push({
+    path: '/activity-manage',
+    query: {
+      page: number,
+      size: size.value,
+      keyword: keyword.value
+    }
+  })
   getListData()
 }
 
 const handleSizeChange = (number) => {
-  size.value = number
+  router.push({
+    path: '/volunteer-manage',
+    query: {
+      page: page.value,
+      size: number,
+      keyword: keyword.value
+    }
+  })
   getListData()
 }
 
@@ -164,6 +188,22 @@ const setInfoChangeDialog = (visible, obj) => {
   infoObj.aAddress = obj.address
   infoObj.aDateTime = obj.dateTime
 }
+const handleSearch = async () => {
+  const keywordInput = inputKeyword.value.trim()
+  keyword.value = keywordInput
+  page.value = 1
+  size.value = 10
+  router.push({
+    path: '/activity-manage',
+    query: {
+      page: page.value,
+      size: size.value,
+      keyword: keyword.value
+    }
+  })
+  getListData()
+}
+
 </script>
 
 <style>

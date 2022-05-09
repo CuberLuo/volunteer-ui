@@ -255,7 +255,8 @@ app.post('/activityList', (request, response) => {
   const currentPageActivityList = []
   const page = request.body.page
   const size = request.body.size
-  const total = 88
+  const keyword = request.body.keyword
+  const total = keyword === undefined || keyword === '' ? 88 : 24
   const startIndex = (page - 1) * size
   const endIndex = startIndex + size < total ? startIndex + size : total
   for (let i = startIndex; i < endIndex; i++) {
@@ -268,14 +269,13 @@ app.post('/activityList', (request, response) => {
   }
   const responseData = {
     code: 10000,
-    msg: '获取活动列表成功',
+    msg: '获取志愿者列表成功',
     data: {
       list: currentPageActivityList,
       total: total, // 总的数据条数
       page: page // 当前页
     }
   }
-
   response.send(responseData)
 })
 
