@@ -115,7 +115,7 @@ const handleChange = () => {
         } else if (response === 10020) {
           ElMessage.error('原密码和新密码相同')
         } else {
-          ElMessage.error('error code:', response.code)
+          ElMessage.error('error code:', response)
         }
       })
       .catch((error) => {
