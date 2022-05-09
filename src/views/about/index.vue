@@ -49,14 +49,16 @@ const src = require('@/assets/tech_img.png')
 .about-img {
   position: absolute;
   right: -80px;
-  width: 750px;
+  width: 796.073px;
   height: 100%;
+  z-index: 0;
 }
 
 .txt-introduce {
   position: absolute;
   left: 20px;
   height: 100%;
+  z-index: 1;
 }
 
 .image-slot {
