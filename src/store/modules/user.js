@@ -36,8 +36,8 @@ export default {
     changePsdSystem(context, ruleForm) {
       return new Promise((resolve, reject) => {
         changePsd({
-          password: ruleForm.password,
-          newPassword: ruleForm.newPassword
+          password: md5(ruleForm.password),
+          newPassword: md5(ruleForm.newPassword)
         })
           .then((response) => {
             resolve(response.code)

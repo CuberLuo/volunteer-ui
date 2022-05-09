@@ -48,7 +48,7 @@ app.post('/changePsd', (request, response) => {
   const password = request.body.password
   const newPassword = request.body.newPassword
   let userInfo = {}
-  if (password !== adminPassword) {
+  if (password !== md5(adminPassword)) {
     userInfo = {
       code: 10010,
       msg: '原密码不正确',
