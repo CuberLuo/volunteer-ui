@@ -9,7 +9,7 @@ export const passVolunteer = (id) => {
 export const objectVolunteer = (id) => {
   return request({
     url: `/objectVolunteer/${id}`,
-    method: 'DELETE'
+    method: 'GET'
   })
 }
 export const getCheckVolList = (data) => {

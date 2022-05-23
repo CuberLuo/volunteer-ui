@@ -9,7 +9,7 @@ export const removeBlackVol = (id) => {
 export const deleteBlackVol = (id) => {
   return request({
     url: `/deleteBlackVol/${id}`,
-    method: 'DELETE'
+    method: 'GET'
   })
 }
 export const getBlackVolList = (data) => {
