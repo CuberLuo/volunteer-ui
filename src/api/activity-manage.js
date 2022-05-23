@@ -11,7 +11,7 @@ export const getActivityList = (data) => {
 export const deleteActivity = (id) => {
   return request({
     url: `/deleteActivity/${id}`,
-    method: 'DELETE'
+    method: 'GET'
   })
 }
 

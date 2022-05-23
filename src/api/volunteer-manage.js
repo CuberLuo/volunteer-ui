@@ -11,7 +11,7 @@ export const getVolunteerList = (data) => {
 export const deleteVolunteer = (id) => {
   return request({
     url: `/deleteVolunteer/${id}`,
-    method: 'DELETE'
+    method: 'GET'
   })
 }
 
