@@ -4,6 +4,7 @@
     :model-value="modelValue"
     @close="closeDialog"
     width="40%"
+    top="25vh"
   >
     <el-form
       ref="addFormRef"
