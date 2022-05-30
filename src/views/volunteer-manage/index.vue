@@ -120,7 +120,8 @@ const infoObj = reactive({
   vGender: '',
   vIdCard: '',
   vPhone: '',
-  vAddress: ''
+  vAddress: '',
+  vId: ''
 })
 const infoChangeDialogVisible = ref(false)
 
@@ -238,6 +239,7 @@ const setInfoChangeDialog = (visible, obj) => {
   infoObj.vPhone = obj.phone
   infoObj.vAddress = obj.address
   infoObj.vSpace = obj.space
+  infoObj.vId = obj.id
 }
 
 const handleSearch = async () => {
