@@ -19,3 +19,10 @@ export const getCheckVolList = (data) => {
     data
   })
 }
+
+export const getVolunteerInfoById = (id) => {
+  return request({
+    url: `/volunteerInfo/${id}`,
+    method: 'GET'
+  })
+}

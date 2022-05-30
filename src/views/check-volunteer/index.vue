@@ -17,7 +17,7 @@
         <el-table-column label="操作">
           <!-- 解构scope得到row -->
           <template #default="{ row }">
-            <el-button type="primary" @click="showInfDialog"
+            <el-button type="primary" @click="showInfDialog(row.id)"
               >详细信息</el-button
             >
             <el-button type="success" @click="showPassConfirm(row.id)"
@@ -60,8 +60,10 @@ const page = ref(1) // 当前页数
 const size = ref(10) // 每页显示条目个数
 
 const showInfDialogVisible = ref(false)
-const showInfDialog = () => {
+const userId = ref(-1)
+const showInfDialog = (id) => {
   showInfDialogVisible.value = true
+  userId.value = id
 }
 
 const loading = ref(false)

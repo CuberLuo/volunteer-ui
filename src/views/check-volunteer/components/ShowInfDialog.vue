@@ -112,6 +112,10 @@ const props = defineProps({
   modelValue: {
     type: Boolean,
     required: true
+  },
+  userId: {
+    type: Number,
+    required: true
   }
 })
 // eslint-disable-next-line no-undef
