@@ -39,7 +39,7 @@
         layout="total, sizes, prev, pager, next, jumper"
       ></el-pagination>
     </el-card>
-    <ShowInfDialog v-model="showInfDialogVisible" />
+    <ShowInfDialog v-model="showInfDialogVisible" :userId="userId" />
   </div>
 </template>
 

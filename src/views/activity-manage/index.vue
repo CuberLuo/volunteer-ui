@@ -87,7 +87,7 @@ import AddActivityDialog from './components/AddActivityDialog.vue'
 import ShowInfDialog from './components/ShowInfDialog.vue'
 import ExportDialog from './components/ExportDialog.vue'
 import InfoChangeDialog from './components/InfoChangeDialog.vue'
-import { Plus, Download } from '@element-plus/icons-vue'
+import { Plus, Download, Search } from '@element-plus/icons-vue'
 import router from '@/router'
 import { useRoute } from 'vue-router'
 
@@ -150,7 +150,7 @@ const handleCurrentChange = (number) => {
 
 const handleSizeChange = (number) => {
   router.push({
-    path: '/volunteer-manage',
+    path: '/activity-manage',
     query: {
       page: page.value,
       size: number,
@@ -203,7 +203,6 @@ const handleSearch = async () => {
   })
   getListData()
 }
-
 </script>
 
 <style>
