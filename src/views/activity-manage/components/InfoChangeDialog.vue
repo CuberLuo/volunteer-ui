@@ -48,6 +48,7 @@ import { ElMessage } from 'element-plus'
 import { changeActivityInfo } from '@/api/activity-manage'
 
 const infoChangeForm = reactive({
+  aId: '',
   aName: '',
   aAddress: '',
   aDateTime: []
@@ -115,6 +116,7 @@ const closeDialog = () => {
 }
 
 const initForm = () => {
+  infoChangeForm.aId = props.infoObj.aId
   infoChangeForm.aName = props.infoObj.aName
   infoChangeForm.aAddress = props.infoObj.aAddress
   infoChangeForm.aDateTime = props.infoObj.aDateTime

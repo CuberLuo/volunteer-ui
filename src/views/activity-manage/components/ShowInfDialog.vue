@@ -68,7 +68,7 @@ import { getActivityInfoById } from '@/api/activity-manage'
 import { OfficeBuilding, Tickets, User } from '@element-plus/icons-vue'
 
 const aName = ref('')
-const aId = ref()
+const aId = ref('')
 const aAddress = ref('')
 const aDateTimeSta = ref('')
 const aDateTimeEnd = ref('')
