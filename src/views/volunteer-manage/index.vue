@@ -156,7 +156,7 @@ const detailedInfoDialogVisible = ref(false)
 const userId = ref(-1)
 const showDetailedInfoDialog = (id) => {
   detailedInfoDialogVisible.value = true
-  userId.value = id
+  userId.value = Number(id)
 }
 
 const loading = ref(false)
