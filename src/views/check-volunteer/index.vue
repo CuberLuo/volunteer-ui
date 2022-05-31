@@ -63,7 +63,7 @@ const showInfDialogVisible = ref(false)
 const userId = ref(-1)
 const showInfDialog = (id) => {
   showInfDialogVisible.value = true
-  userId.value = id
+  userId.value = Number(id)
 }
 
 const loading = ref(false)

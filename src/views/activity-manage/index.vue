@@ -87,7 +87,7 @@ import AddActivityDialog from './components/AddActivityDialog.vue'
 import ShowInfDialog from './components/ShowInfDialog.vue'
 import ExportDialog from './components/ExportDialog.vue'
 import InfoChangeDialog from './components/InfoChangeDialog.vue'
-import { Plus, Download } from '@element-plus/icons-vue'
+import { Plus, Download, Search } from '@element-plus/icons-vue'
 import router from '@/router'
 import { useRoute } from 'vue-router'
 
@@ -108,7 +108,7 @@ const activityId = ref(-1)
 const showInfDialogVisible = ref(false)
 const showInfDialog = (id) => {
   showInfDialogVisible.value = true
-  activityId.value = id
+  activityId.value = Number(id)
 }
 
 const addActivityDialogVisible = ref(false)
@@ -205,7 +205,6 @@ const handleSearch = async () => {
   })
   getListData()
 }
-
 </script>
 
 <style>
