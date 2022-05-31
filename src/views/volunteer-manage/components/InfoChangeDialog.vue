@@ -12,6 +12,9 @@
       :rules="changeRules"
       label-width="100px"
     >
+      <el-form-item prop="vId">
+        <el-input type="hidden" name="vId" v-model="infoChangeForm.vId" />
+      </el-form-item>
       <el-form-item label="姓名" prop="vName">
         <el-input name="vName" v-model="infoChangeForm.vName" maxlength="20" />
       </el-form-item>
@@ -69,7 +72,8 @@ const infoChangeForm = reactive({
   vIdCard: '',
   vPhone: '',
   vAddress: '',
-  vSpace: ''
+  vSpace: '',
+  vId: ''
 })
 const infoChangeFormRef = ref()
 const validateIdCard = (rule, value, callback) => {
@@ -183,6 +187,7 @@ const initForm = () => {
   infoChangeForm.vPhone = props.infoObj.vPhone.toString()
   infoChangeForm.vAddress = props.infoObj.vAddress
   infoChangeForm.vSpace = props.infoObj.vSpace
+  infoChangeForm.vId = props.infoObj.vId
   getActivitySelectList().then((response) => {
     response.data.list.forEach((activity) => {
       const obj = {
